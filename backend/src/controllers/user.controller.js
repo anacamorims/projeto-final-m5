@@ -2,16 +2,22 @@ import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
+const generateAccountNumber = () => {
+  return Math.floor(1000000000 + Math.random() * 9000000000).toString();
+};
+
 export const createUser = async (req, res) => {
   try {
-    const { name, email, password, contactNumber, active } = req.body;
+    const { name, email, password, contactNumber, balance, active } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await User.create({
+      accountNumber: generateAccountNumber(),
       name,
       email,
-      password: hashedPassword, // Usando a senha hasheada
+      password: hashedPassword, 
       contactNumber,
+      balance,
       active: active !== undefined ? active : true,
     });
 
