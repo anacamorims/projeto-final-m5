@@ -7,6 +7,11 @@ const User = sequelize.define('users', {
     autoIncrement: true,
     primaryKey: true,
   },
+  accountNumber: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true, 
+},
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -34,5 +39,7 @@ const User = sequelize.define('users', {
 }, {
   timestamps: true, 
 });
+
+User.sync();
 
 export default User; 
