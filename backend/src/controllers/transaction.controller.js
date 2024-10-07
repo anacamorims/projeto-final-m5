@@ -1,9 +1,10 @@
 import Transaction from '../models/transaction.model.js';
 import User from '../models/user.model.js';
+import History from '../models/history.model.js';
 
 export const createTransaction = async (req, res) => {
     try {
-        const { senderAccountNumber, receiverAccountNumber, amount } = req.body;
+        const { senderAccountNumber, receiverAccountNumber, amount, description } = req.body;
 
         const sender = await User.findOne({ where: { accountNumber: senderAccountNumber } });
         if (!sender) {
@@ -29,8 +30,26 @@ export const createTransaction = async (req, res) => {
             senderId: sender.accountNumber,
             receiverId: receiver.accountNumber,
             amount,
-            type: 'transfer'
+            type: 'transfer',
+            description
         });
+
+
+        await History.create({
+          userId: sender.id, 
+          transactionId: transaction.id, 
+          action: 'transfer', 
+          amount: -amount,
+          description: `Enviou R$${amount} para ${receiver.name}: ${description}`,
+      });
+
+      await History.create({
+          userId: receiver.id,
+          transactionId: transaction.id,
+          action: 'transfer', 
+          amount, 
+          description: `Recebeu R$${amount} de ${sender.name}: ${description}`,
+      });
 
         return res.status(201).json({ message: 'Transação realizada com sucesso', transaction });
     } catch (error) {
@@ -39,15 +58,15 @@ export const createTransaction = async (req, res) => {
     }
 };
   
-export const getTransactions = async (req, res) => {
-  const { userId } = req.params;
+export const getUserHistory = async (req, res) => {
+  const { userId } = req.params; 
   try {
-    const transactions = await Transaction.findAll({
-      where: { userId },
-      order: [['createdAt', 'DESC']],
-    });
-    res.json(transactions);
+      const history = await History.findAll({
+          where: { userId },
+          order: [['createdAt', 'DESC']],
+      });
+      return res.json(history);
   } catch (error) {
-    res.status(500).json({ message: 'Error retrieving transactions', error: error.message });
+      return res.status(500).json({ message: 'Erro ao obter histórico', error: error.message });
   }
 };
