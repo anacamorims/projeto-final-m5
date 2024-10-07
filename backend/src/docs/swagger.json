@@ -1,0 +1,172 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Bank API",
+      "version": "1.0.0",
+      "description": "API para um sistema bancário fictício."
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000"
+      }
+    ],
+    "paths": {
+      "/users/{id}": {
+        "get": {
+          "summary": "Get user by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the user",
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User details",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "User not found"
+            }
+          }
+        }
+      },
+      "/transactions": {
+        "post": {
+          "summary": "Create a new transaction",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Transaction created successfully"
+            },
+            "404": {
+              "description": "Sender or receiver not found"
+            },
+            "400": {
+              "description": "Insufficient balance"
+            }
+          }
+        }
+      },
+      "/history/{accountNumber}": {
+        "get": {
+          "summary": "Get transaction history for a user",
+          "parameters": [
+            {
+              "name": "accountNumber",
+              "in": "path",
+              "required": true,
+              "description": "Account number of the user",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Transaction history for the user",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Transaction"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "No transactions found for this account number"
+            },
+            "500": {
+              "description": "Error retrieving transaction history"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "User": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "accountNumber": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "contactNumber": {
+              "type": "string"
+            },
+            "balance": {
+              "type": "number"
+            },
+            "active": {
+              "type": "boolean"
+            }
+          }
+        },
+        "Transaction": {
+          "type": "object",
+          "properties": {
+            "senderId": {
+              "type": "string"
+            },
+            "receiverId": {
+              "type": "string"
+            },
+            "amount": {
+              "type": "number"
+            },
+            "type": {
+              "type": "string",
+              "enum": ["transfer", "deposit", "withdraw"]
+            },
+            "description": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      }
+    }
+  }
+  
