@@ -1,10 +1,12 @@
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 import pkg from 'pg';
+
 const { Client } = pkg;
 
 dotenv.config();
 
+// Função para criar o banco de dados se não existir
 const createDatabaseIfNotExists = async () => {
   try {
     const client = new Client({
@@ -39,6 +41,7 @@ const createDatabaseIfNotExists = async () => {
   }
 };
 
+// Inicializa o Sequelize
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
   host: process.env.DB_HOST,
   dialect: 'postgres',
@@ -52,22 +55,25 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   }
 });
 
+// Função para criar o banco de dados e as tabelas
 const createDatabaseAndTable = async () => {
   try {
-    await createDatabaseIfNotExists();
+    await createDatabaseIfNotExists(); // Tenta criar o banco de dados
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Espera um pouco para garantir que o banco de dados está pronto
 
-    await sequelize.authenticate();
+    await sequelize.authenticate(); // Tenta autenticar a conexão
     console.log('Conexão com o banco de dados estabelecida com sucesso.');
 
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ force: false }); // Sincroniza as tabelas
     console.log('Tabelas sincronizadas com sucesso.');
   } catch (err) {
     console.error('Não foi possível conectar ao banco de dados:', err);
   }
 };
 
+// Exporta a instância do Sequelize
 export default sequelize;
 
+// Chama a função para criar o banco de dados e as tabelas
 createDatabaseAndTable();

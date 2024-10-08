@@ -7,9 +7,13 @@ import sequelize from './src/database/db.js';
 import transationRoutes from './src/routes/transaction.routes.js'
 import historyRoutes from "./src/routes/history.routes.js"
 import cardRoutes from './src/routes/card.routes.js'
+import cors from 'cors';  
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+app.use(cors());  
+
 
 app.use(express.json());
 
