@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../database/db.js'; 
 
-const User = sequelize.define('users', {
+const User = sequelize.define('User', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -11,9 +11,9 @@ const User = sequelize.define('users', {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true, 
-},
+  },
   name: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING, 
     allowNull: false,
   },
   email: {
@@ -37,9 +37,14 @@ const User = sequelize.define('users', {
     defaultValue: true,
   },
 }, {
-  timestamps: true, 
+  timestamps: true,
 });
 
-User.sync();
+User.associate = (models) => {
+  User.hasMany(models.Cartao, {
+    foreignKey: 'usuarioId',
+    as: 'cartoes',
+  });
+};
 
-export default User; 
+export default User;

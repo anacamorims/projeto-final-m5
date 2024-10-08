@@ -1,14 +1,10 @@
-import {authenticateToken}  from '../middleware/authMiddleware.js'; 
-
-const express = require('express');
-const CartaoController = require('../controllers/card.controller.js');
+import express from 'express';
+import { criarCartao, buscarCartoes } from '../controllers/card.controller.js';
 
 const router = express.Router();
 
-//  adicionar novo cartão
-router.post('/:usuarioId/cartao', CartaoController.criarCartao);
+// Rota para criar um cartão (aqui o ID é um parâmetro da URL)
+router.post('/:id/card', criarCartao);
+router.get('/:id/card', buscarCartoes);
 
-// buscar cartões de usuário
-router.get('/:usuarioId/cartao', CartaoController.buscarCartoes);
-
-module.exports = router;
+export default router;
