@@ -1,0 +1,12 @@
+.container_sign__in {
+    display: flex;
+    flex-direction: column;    
+}
+
+.title__sign_in {
+    font-family: var(--main-font);
+    font-weight: 500;
+    font-size: 32px;
+    margin: 1em 0.5em;
+    color: #1E1E2D;
+  }
