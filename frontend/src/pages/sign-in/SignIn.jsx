@@ -1,7 +1,7 @@
 import style from "./SignIn.module.css";
 import BackButton from "../../components/back-button/BackButton";
 import InputForm from "../../components/input-form/InputForm";
-import ButtonDefault from "../../components/default-button/DefaultButton"
+import ButtonDefault from "../../components/button-default/ButtonDefault"
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 

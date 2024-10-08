@@ -1,5 +1,4 @@
 :root {
-  --main-font: "Poppins", system-ui;
   --main-color-font: #1E1E2D;
 }
 
@@ -7,6 +6,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", system-ui;
+  font-family: "Poppins", system-ui; 
 }
+
 
