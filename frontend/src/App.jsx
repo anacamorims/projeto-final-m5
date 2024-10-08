@@ -1,8 +1,12 @@
 import './App.css'
+import Home from "./pages/Home/home.jsx"
 
 function App() {
+
   return (
-    <h1>Cosmic Bank</h1>
+    <>
+      <Home/>
+    </>
   )
 }
 
