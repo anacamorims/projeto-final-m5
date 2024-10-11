@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import styles from './bottonNav.module.css'; // Importando o CSS como módulo
+import styles from './bottonNav.module.css'; 
+
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import AccountBalanceWalletRoundedIcon from '@mui/icons-material/AccountBalanceWalletRounded';
+import CurrencyExchangeRoundedIcon from '@mui/icons-material/CurrencyExchangeRounded';
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 import Home from '../../pages/dashboard/home/home';
 import Cards from '../../pages/dashboard/cards/card';
@@ -35,7 +40,10 @@ const BottomNavigation = () => {
               className={`${styles.navButton} ${activePage === 'home' ? styles.active : ''}`}
               onClick={() => setActivePage('home')}
             >
-              <i className={styles.iconHome}></i>
+              <i className={styles.iconHome}>
+              <HomeRoundedIcon />
+
+              </i>
               <span>Home</span>
             </button>
           </li>
@@ -44,7 +52,9 @@ const BottomNavigation = () => {
               className={`${styles.navButton} ${activePage === 'cards' ? styles.active : ''}`}
               onClick={() => setActivePage('cards')}
             >
-              <i className={styles.iconCards}></i>
+              <i className={styles.iconCards}>
+                <AccountBalanceWalletRoundedIcon />
+              </i>
               <span>Cards</span>
             </button>
           </li>
@@ -53,7 +63,9 @@ const BottomNavigation = () => {
               className={`${styles.navButton} ${activePage === 'transfer' ? styles.active : ''}`}
               onClick={() => setActivePage('transfer')}
             >
-              <i className={styles.iconTransfer}></i>
+              <i className={styles.iconTransfer}>
+                <CurrencyExchangeRoundedIcon />
+              </i>
               <span>Transfer</span>
             </button>
           </li>
@@ -62,7 +74,9 @@ const BottomNavigation = () => {
               className={`${styles.navButton} ${activePage === 'profile' ? styles.active : ''}`}
               onClick={() => setActivePage('profile')}
             >
-              <i className={styles.iconProfile}></i>
+              <i className={styles.iconProfile}>
+                <AccountCircleRoundedIcon />
+              </i>
               <span>Profile</span>
             </button>
           </li>

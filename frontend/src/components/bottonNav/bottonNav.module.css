@@ -3,13 +3,14 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 60px;
-    background-color: #fff;
+    height: 86px;
+    background-color: #27273A;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-around;
     align-items: center;
     z-index: 100;
+    border-radius: 20px 20px 0 0;
   }
   
   .navList {
@@ -23,6 +24,9 @@
   
   .navItem {
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .navButton {
@@ -31,7 +35,7 @@
     align-items: center;
     background: none;
     border: none;
-    color: #333;
+    color: #8B8B94;
     font-size: 14px;
     cursor: pointer;
     padding: 10px;
@@ -42,35 +46,31 @@
   }
   
   .navButton .icon-home:before {
-    content: '\f015'; /* FontAwesome home icon */
+    content: '\f015'; 
   }
   
   .navButton .icon-cards:before {
-    content: '\f09d'; /* FontAwesome cards icon */
+    content: '\f09d'; 
   }
   
   .navButton .icon-transfer:before {
-    content: '\f0d1'; /* FontAwesome transfer icon */
+    content: '\f0d1'; 
   }
   
   .navButton .icon-profile:before {
-    content: '\f007'; /* FontAwesome profile icon */
+    content: '\f007'; 
   }
-  
-  .navButton i {
-    font-size: 24px;
-    margin-bottom: 4px;
-  }
+
   
   .navButton span {
     font-size: 12px;
   }
   
   .navButton.active {
-    color: #007bff; /* Exemplo: altera a cor do ícone e do texto quando ativo */
+    color: #0066FF;
   }
   
   .navButton.active i {
-    color: #007bff; /* Altera a cor do ícone */
+    color: #0066FF;
   }
   
