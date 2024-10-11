@@ -1,9 +1,9 @@
-.container_sign__in {
+.container_form {
     display: flex;
     flex-direction: column;    
 }
 
-.title__sign_in {
+.title__form {
     font-family: var(--main-font);
     font-weight: 500;
     font-size: 32px;
