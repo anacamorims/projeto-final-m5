@@ -1,10 +1,9 @@
-import styles from "./dashboard.module.css";
-import Card from "../../components/card-bank/card";
+import styles from "./home.module.css";
+import Card from "../../../components/card-bank/card";
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 
 
-
-export default function Dashboard() {
+export default function Home() {
   return (
     <section className={styles.container}>
       <nav className={styles.navbar}>

@@ -1,36 +1,79 @@
-import * as React from 'react';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import FolderIcon from '@mui/icons-material/Folder';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import React, { useState } from 'react';
+import styles from './bottonNav.module.css'; // Importando o CSS como módulo
 
-export default function LabelBottomNavigation() {
-  const [value, setValue] = React.useState('recents');
+import Home from '../../pages/dashboard/home/home';
+import Cards from '../../pages/dashboard/cards/card';
+import Transfer from '../../pages/dashboard/transfer/transfer';
+import Profile from '../../pages/dashboard/profile/profile';
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+const BottomNavigation = () => {
+  // Estado para controlar a página atual
+  const [activePage, setActivePage] = useState('home');
+
+  // Função para renderizar a página com base no estado
+  const renderPage = () => {
+    switch (activePage) {
+      case 'home':
+        return <Home />;
+      case 'cards':
+        return <Cards />;
+      case 'transfer':
+        return <Transfer />;
+      case 'profile':
+        return <Profile />;
+      default:
+        return <Home />;
+    }
   };
 
   return (
-    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-      <BottomNavigationAction
-        label="Recents"
-        value="recents"
-        icon={<RestoreIcon />}
-      />
-      <BottomNavigationAction
-        label="Favorites"
-        value="favorites"
-        icon={<FavoriteIcon />}
-      />
-      <BottomNavigationAction
-        label="Nearby"
-        value="nearby"
-        icon={<LocationOnIcon />}
-      />
-      <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
-    </BottomNavigation>
+    <div>
+      <nav className={styles.bottomNavigation}>
+        <ul className={styles.navList}>
+          <li className={styles.navItem}>
+            <button
+              className={`${styles.navButton} ${activePage === 'home' ? styles.active : ''}`}
+              onClick={() => setActivePage('home')}
+            >
+              <i className={styles.iconHome}></i>
+              <span>Home</span>
+            </button>
+          </li>
+          <li className={styles.navItem}>
+            <button
+              className={`${styles.navButton} ${activePage === 'cards' ? styles.active : ''}`}
+              onClick={() => setActivePage('cards')}
+            >
+              <i className={styles.iconCards}></i>
+              <span>Cards</span>
+            </button>
+          </li>
+          <li className={styles.navItem}>
+            <button
+              className={`${styles.navButton} ${activePage === 'transfer' ? styles.active : ''}`}
+              onClick={() => setActivePage('transfer')}
+            >
+              <i className={styles.iconTransfer}></i>
+              <span>Transfer</span>
+            </button>
+          </li>
+          <li className={styles.navItem}>
+            <button
+              className={`${styles.navButton} ${activePage === 'profile' ? styles.active : ''}`}
+              onClick={() => setActivePage('profile')}
+            >
+              <i className={styles.iconProfile}></i>
+              <span>Profile</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <div className={styles.pageContent}>
+        {renderPage()}
+      </div>
+    </div>
   );
-}
+};
+
+export default BottomNavigation;
