@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import * as React from 'react';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
-import Card from '../../components/card-bank/card'; // Caminho correto para o arquivo
+import Card from '../../components/card-bank/card';
 
 const useStyles = makeStyles({
   root: {
@@ -45,7 +45,6 @@ export default function Home() {
     <section>
       dasd
     </section>
-    
     </>
   );
 }
