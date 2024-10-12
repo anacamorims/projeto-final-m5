@@ -1,30 +1,28 @@
-import React, { useState } from 'react';
-import styles from './bottonNav.module.css'; 
+import React, { useState } from "react";
+import styles from "./bottonNav.module.css";
 
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import AccountBalanceWalletRoundedIcon from '@mui/icons-material/AccountBalanceWalletRounded';
-import CurrencyExchangeRoundedIcon from '@mui/icons-material/CurrencyExchangeRounded';
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
+import CurrencyExchangeRoundedIcon from "@mui/icons-material/CurrencyExchangeRounded";
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 
-import Home from '../../pages/dashboard/home/home';
-import Cards from '../../pages/dashboard/cards/card';
-import Transfer from '../../pages/dashboard/transfer/transfer';
-import Profile from '../../pages/dashboard/profile/profile';
+import Home from "../../pages/dashboard/home/home";
+import Cards from "../../pages/dashboard/cards/card";
+import Transfer from "../../pages/dashboard/transfer/transfer";
+import Profile from "../../pages/dashboard/profile/profile";
 
 const BottomNavigation = () => {
-  // Estado para controlar a página atual
-  const [activePage, setActivePage] = useState('home');
+  const [activePage, setActivePage] = useState("home");
 
-  // Função para renderizar a página com base no estado
   const renderPage = () => {
     switch (activePage) {
-      case 'home':
+      case "home":
         return <Home />;
-      case 'cards':
+      case "cards":
         return <Cards />;
-      case 'transfer':
+      case "transfer":
         return <Transfer />;
-      case 'profile':
+      case "profile":
         return <Profile />;
       default:
         return <Home />;
@@ -37,20 +35,23 @@ const BottomNavigation = () => {
         <ul className={styles.navList}>
           <li className={styles.navItem}>
             <button
-              className={`${styles.navButton} ${activePage === 'home' ? styles.active : ''}`}
-              onClick={() => setActivePage('home')}
+              className={`${styles.navButton} ${
+                activePage === "home" ? styles.active : ""
+              }`}
+              onClick={() => setActivePage("home")}
             >
               <i className={styles.iconHome}>
-              <HomeRoundedIcon />
-
+                <HomeRoundedIcon />
               </i>
               <span>Home</span>
             </button>
           </li>
           <li className={styles.navItem}>
             <button
-              className={`${styles.navButton} ${activePage === 'cards' ? styles.active : ''}`}
-              onClick={() => setActivePage('cards')}
+              className={`${styles.navButton} ${
+                activePage === "cards" ? styles.active : ""
+              }`}
+              onClick={() => setActivePage("cards")}
             >
               <i className={styles.iconCards}>
                 <AccountBalanceWalletRoundedIcon />
@@ -60,8 +61,10 @@ const BottomNavigation = () => {
           </li>
           <li className={styles.navItem}>
             <button
-              className={`${styles.navButton} ${activePage === 'transfer' ? styles.active : ''}`}
-              onClick={() => setActivePage('transfer')}
+              className={`${styles.navButton} ${
+                activePage === "transfer" ? styles.active : ""
+              }`}
+              onClick={() => setActivePage("transfer")}
             >
               <i className={styles.iconTransfer}>
                 <CurrencyExchangeRoundedIcon />
@@ -71,8 +74,10 @@ const BottomNavigation = () => {
           </li>
           <li className={styles.navItem}>
             <button
-              className={`${styles.navButton} ${activePage === 'profile' ? styles.active : ''}`}
-              onClick={() => setActivePage('profile')}
+              className={`${styles.navButton} ${
+                activePage === "profile" ? styles.active : ""
+              }`}
+              onClick={() => setActivePage("profile")}
             >
               <i className={styles.iconProfile}>
                 <AccountCircleRoundedIcon />
@@ -83,9 +88,7 @@ const BottomNavigation = () => {
         </ul>
       </nav>
 
-      <div className={styles.pageContent}>
-        {renderPage()}
-      </div>
+      <div className={styles.pageContent}>{renderPage()}</div>
     </div>
   );
 };
