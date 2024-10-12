@@ -44,7 +44,7 @@
 }
 
 .cardInfo {
-  font: 0.75em/1 "DM Sans", sans-serif;
+  font: clamp(0.75rem, 1vw, 1rem) / 1 "DM Sans", sans-serif; /* Ajusta entre 12px e 16px */
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -96,7 +96,7 @@
 }
 
 .cardNumber {
-  font-size: 1rem;
+  font-size: clamp(1rem, 2.5vw, 1.5rem); /* Ajusta entre 16px e 24px */
   display: flex;
   justify-content: space-between;
 }
@@ -113,14 +113,14 @@
 }
 
 .cardValidThru {
-  font-size: 0.3rem;
+  font-size: clamp(0.3rem, 1vw, 0.5rem); /* Ajusta entre 5px e 8px */
   padding-right: 0.25rem;
   text-align: right;
 }
 
 .cardExpDate,
 .cardName {
-  font-size: 0.6rem;
+  font-size: clamp(0.6rem, 1.5vw, 0.9rem); /* Ajusta entre 10px e 14px */
 }
 
 .cardExpDate {
