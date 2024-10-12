@@ -1,0 +1,201 @@
+.container {
+    background-color: #232533;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 1rem 1rem;
+    color: white;
+}
+
+.navbar .avatarUser {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatarUser svg {
+    width: 100%;
+    height: 100%;
+}
+
+.navbar .welcomeText {
+    font-family: var(--main-font);
+    font-size: 18px;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar .welcomeText span {
+    color: rgb(119, 119, 119);
+}
+
+.transferContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+
+}
+
+h2 {
+    font-family: var(--main-font);
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: start;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 90%;
+}
+
+.input_field {
+    position: relative;
+    margin: 15px 0;
+}
+
+.input_field label {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    left: 30%;
+    transform: translateY(-50%) translateX(-30%);
+    color: rgb(119, 119, 119);
+    font-size: 16px;
+    pointer-events: none;
+    transition: 0.15s ease;
+    text-align: justify;
+}
+
+.input_field .icon {
+    position: absolute;
+    left: 0; 
+    top: 50%;
+    transform: translateY(-50%);
+    color: white; 
+    opacity: 0; 
+    transition: opacity 0.3s ease; 
+}
+
+.input_field input {
+    width: 100%;
+    height: 40px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #fff;
+    border-bottom: 2px solid rgb(119, 119, 119); 
+    padding-left: 30px; 
+    transition: border-bottom 0.3s ease;
+}
+
+.input_field input:focus {
+    border-bottom: 2px solid #ffffff; 
+}
+
+.input_field input:focus + label,
+.input_field input:valid + label {
+    font-size: 0.8rem;
+    top: 10px;
+    transform: translateY(-150%) translateX(-30%);
+    color: white;
+}
+
+.input_field input:focus ~ .icon,
+.input_field input:valid ~ .icon {
+    opacity: 1;
+}
+
+
+.textarea_field {
+    position: relative;
+    margin: 15px 0;
+}
+
+.textarea_field label {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    left: 30%;
+    transform: translateY(-50%) translateX(-30%);
+    color: rgb(119, 119, 119);
+    font-size: 16px;
+    pointer-events: none;
+    transition: 0.15s ease;
+    text-align: justify;
+}
+
+.textarea_field textarea {
+    width: 100%;
+    height: 80px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #fff;
+    resize: none; 
+    padding: 10px;
+    border-bottom: 2px solid rgb(119, 119, 119); 
+    transition: border-bottom 0.3s ease; 
+}
+
+.textarea_field textarea:focus {
+    border-bottom: 2px solid #ffffff; 
+}
+
+.textarea_field textarea:focus + label,
+.textarea_field textarea:valid + label {
+    font-size: 0.8rem;
+    top: 10px;
+    transform: translateY(-150%) translateX(-30%);
+    color: white;
+}
+
+.transferButton button {
+    background: #6495ed;
+    width: 100%;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    font-weight: bold;
+    
+}
+
+.amount {
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: start;
+    background-color: #7070702e;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-radius: 20px;
+}
+
+.amount h4 {
+    font-size: 13px;
+    font-weight: bold;
+    color: #9CB1D1;
+}
+
+.amount span {
+    font-weight: bold;
+    color: #9CB1D1;
+}
