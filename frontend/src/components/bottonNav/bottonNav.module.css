@@ -1,0 +1,76 @@
+.bottomNavigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 86px;
+    background-color: #27273A;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    border-radius: 20px 20px 0 0;
+  }
+  
+  .navList {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .navItem {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .navButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    border: none;
+    color: #8B8B94;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  .navButton:focus {
+    outline: none;
+  }
+  
+  .navButton .icon-home:before {
+    content: '\f015'; 
+  }
+  
+  .navButton .icon-cards:before {
+    content: '\f09d'; 
+  }
+  
+  .navButton .icon-transfer:before {
+    content: '\f0d1'; 
+  }
+  
+  .navButton .icon-profile:before {
+    content: '\f007'; 
+  }
+
+  
+  .navButton span {
+    font-size: 12px;
+  }
+  
+  .navButton.active {
+    color: #0066FF;
+  }
+  
+  .navButton.active i {
+    color: #0066FF;
+  }
+  

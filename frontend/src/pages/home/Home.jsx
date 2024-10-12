@@ -48,4 +48,6 @@ export default function Home() {
       </section>
     </>
   );
-}
+};
+
+export default Home;
