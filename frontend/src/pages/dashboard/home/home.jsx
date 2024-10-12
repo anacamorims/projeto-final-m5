@@ -4,7 +4,7 @@ import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceW
 
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 
-export default function Home() {
+export default function HomeApp() {
   return (
     <section className={styles.container}>
       <nav className={styles.navbar}>
