@@ -1,24 +1,8 @@
-import styles from "./home.module.css";
-import { Link } from "react-router-dom";
-import * as React from 'react';
-import { makeStyles } from '@mui/styles';
-import Button from '@mui/material/Button';
-import Card from '../../components/card-bank/card';
+import React from 'react';
+import { Button } from '@mui/material';
+import styles from './home.module.css';
 
-const useStyles = makeStyles({
-  root: {
-    backgroundColor: 'black',
-    color: 'white',
-    '&:hover': {
-      backgroundColor: 'secondary.main',
-    },
-  },
-});
-
-export default function Home() {
-
-  const classes = useStyles(); 
-
+const Home = () => {
   return (
     <>
     <section className={styles.homeContainer}>
