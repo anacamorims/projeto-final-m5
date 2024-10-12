@@ -1,29 +1,26 @@
 import styles from "./home.module.css";
-import { Link } from "react-router-dom";
-import Button from '@mui/material/Button';
-// import * as React from 'react';
-// import { makeStyles } from '@mui/styles';
-// import Card from '../../components/card-bank/card'; // Caminho correto para o arquivo
-
-// const useStyles = makeStyles({
-//   root: {
-//     backgroundColor: 'black',
-//     color: 'white',
-//     '&:hover': {
-//       backgroundColor: 'secondary.main',
-//     }
-//   },
-// });
+import { Box } from "@mui/material";
+import ButtonHome from "../../components/button-home/ButtonHome";
+import CardHome from "../../components/card-home/CardHome";
+import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import WifiProtectedSetupIcon from '@mui/icons-material/WifiProtectedSetup';
 
 export default function Home() {
   return (
     <>
       <section className={styles.homeContainer}>
         <div className={styles.homeContent}>
-
-          <div className={styles.homeTitle}>
-            <h1>meet the credit card of the future</h1>
-          </div>
+          <Box sx={{ 
+            mb: 5,
+            fontSize: {
+              xs: "20px",
+              sm: "30px",
+              md: "35px"
+            }
+          }}>
+          <h1>meet the credit card of the future</h1>
+        </Box>
           
           <div className={styles.homeText}>
             <p>
@@ -33,18 +30,41 @@ export default function Home() {
               inventore quisquam maiores facere sint!
             </p>
 
-            <Link to={"/sign/in"}>
-              <Button 
-                variant="contained" 
-                color="primary"
-                sx={{ boxShadow: "none", borderRadius: 2}}
-              >
-                Saiba mais
-              </Button>
-            </Link>
-            
+            <Box sx={{ display: "flex", gap: 2}}>
+              <ButtonHome name={"Entrar"} to={"sign/in"} />
+              <ButtonHome name={"Cadastrar"} to={"sign/up"} />
+            </Box>
           </div>
         </div>
+      </section>
+
+      <section className={styles.homeContainer}>
+        <Box sx={{ 
+          borderLeft: "2px solid blue", 
+          paddingLeft: "17px", 
+          fontSize: "1.5em",
+          gap: "2rem", 
+          m: "20px 1em" }}>
+          <h2>Nossos Serviços</h2>
+        </Box>
+
+        <div className={styles.container__cards__home}>
+          <CardHome
+            icon={AccountBalanceWalletOutlinedIcon}
+            title={"Accounts"}
+            description={"lorem ipsum seila seila ipsin"}
+          />
+           <CardHome
+            icon={CreditCardIcon}
+            title={"Accounts Cards"}
+            description={"lorem ipsum seila seila ipsin"}
+          />
+            <CardHome
+            icon={WifiProtectedSetupIcon}
+            title={"Transation"}
+            description={"lorem ipsum seila seila ipsin"}
+          />
+        </div> 
       </section>
     </>
   );
