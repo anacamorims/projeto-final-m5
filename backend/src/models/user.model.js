@@ -40,6 +40,7 @@ const User = sequelize.define('User', {
   timestamps: true,
 });
 
+// Adicionando a associação
 User.associate = (models) => {
   User.hasMany(models.Cartao, {
     foreignKey: 'usuarioId',

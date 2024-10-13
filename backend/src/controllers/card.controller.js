@@ -23,15 +23,14 @@ const cardController = {
       const { id } = req.params; 
       const { vencimento, bandeira, senha, tipo, limite } = req.body;
 
+      // Validação dos campos
+      if (!vencimento || !bandeira || !senha || !tipo || limite === undefined) {
+        return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
+      }
+
       const numero = gerarNumeroCartao(); 
       const codigo_seg = gerarCodigoSeguranca(); 
 
-      const dataAtual = new Date();
-      const anoValidade = dataAtual.getFullYear() + 3; // Adiciona 3 anos
-      const mesValidade = dataAtual.getMonth() + 1; // Mês atual (0-11, então +1)
-      const dataVencimento = `${mesValidade < 10 ? '0' : ''}${mesValidade}/${anoValidade.toString().slice(-2)}`; // Formato MM/AA
-
-  
       const usuario = await User.findByPk(id);
   
       if (!usuario) {
@@ -40,18 +39,18 @@ const cardController = {
   
       const novoCartao = await Cartao.create({
         numero,
-        vencimento: dataVencimento,
+        vencimento,
         bandeira,
         codigo_seg,
         senha,
         tipo,
         limite,
-        usuarioId: usuario.id, // Usa o ID do usuário
+        usuarioId: usuario.id, 
       });
   
       res.status(201).json(novoCartao);
     } catch (error) {
-      console.error(error);
+      console.error('Erro ao adicionar o cartão:', error);
       res.status(500).json({ error: 'Erro ao adicionar o cartão' });
     }
   },
@@ -63,7 +62,7 @@ const cardController = {
       const usuario = await User.findByPk(id, {
         include: [{
           model: Cartao,
-          as: 'cartoes',
+          as: 'cartoes', // Certifique-se de que o alias corresponde à associação no modelo
         }],
       });
 
@@ -71,8 +70,19 @@ const cardController = {
         return res.status(404).json({ error: 'Usuário não encontrado' });
       }
 
+      // Verifica se o usuário possui cartões
+      if (!usuario.cartoes || usuario.cartoes.length === 0) {
+        return res.status(200).json([{ 
+          numero: 'XXXX XXXX XXXX XXXX',
+          vencimento: 'XX/XX',
+          bandeira: 'Nenhuma',
+          tipo: 'Nenhum',
+        }]);
+      }
+
       res.status(200).json(usuario.cartoes);
     } catch (error) {
+      console.error('Erro ao buscar cartões:', error);
       res.status(500).json({ error: 'Erro ao buscar cartões' });
     }
   }
