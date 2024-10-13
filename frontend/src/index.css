@@ -1,0 +1,11 @@
+:root {
+  --main-color-font: #1E1E2D;
+  --second-color-text: #A2A2A7;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins";
+}

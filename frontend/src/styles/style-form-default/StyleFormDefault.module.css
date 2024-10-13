@@ -1,0 +1,12 @@
+.container_form  {
+    display: flex;
+    flex-direction: column; 
+}
+
+.title__form {
+    font-family: var(--main-font);
+    font-weight: 500;
+    font-size: 32px;
+    margin: 1em 0.5em;
+    color: var(--sencond-color-font);
+  }
