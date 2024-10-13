@@ -1,16 +1,19 @@
-import { useState, useEffect } from "react"
-import { FaEye, FaEyeSlash, FaCcMastercard } from "react-icons/fa"
-import { ToastContainer, toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
-import axios from "axios"
-import CircularProgress from "@mui/material/CircularProgress"
-import Box from "@mui/material/Box"
-import "./CardComponent.css"
+import { useState, useEffect } from "react";
+import { FaEye, FaEyeSlash, FaCcMastercard } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+import "./CardComponent.css";
 
 const Card = () => {
-  const [cardDetails, setCardDetails] = useState(null)
-  const [limit, setLimit] = useState(0)
-  const [showPassword, setShowPassword] = useState(false)
+  const [cardDetails, setCardDetails] = useState(null);
+  const [limit, setLimit] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isAddingCard, setIsAddingCard] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [newCard, setNewCard] = useState({
     name: "",
     number: "",
@@ -18,60 +21,71 @@ const Card = () => {
     expiry: "",
     type: "",
     password: "",
-  })
-  const [isAddingCard, setIsAddingCard] = useState(false)
-  const [loading, setLoading] = useState(true)
+  });
+
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchCardDetails = async () => {
       try {
-        const token = localStorage.getItem("token")
-        const response = await axios.get("https://projeto-final-m5-api.onrender.com/:id/card", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        setCardDetails(response.data)
-        setLimit(response.data.limit)
+        const response = await axios.get(
+          `https://projeto-final-m5-api.onrender.com/${userId}/card`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setCardDetails(response.data);
+        setLimit(response.data.limit);
       } catch (error) {
-        console.error("Erro ao buscar dados do cartão:", error)
+        console.error("Erro ao buscar dados do cartão:", error);
+        toast.error("Erro ao buscar os dados do cartão.");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchCardDetails()
-  }, [])
+    fetchCardDetails();
+  }, [userId, token]);
 
   const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev)
-  }
+    setShowPassword((prev) => !prev);
+  };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setNewCard((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setNewCard((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleAddCard = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const token = localStorage.getItem("token")
       const response = await axios.post(
-        "https://projeto-final-m5-api.onrender.com/:id/card",
+        `https://projeto-final-m5-api.onrender.com/${userId}/card`,
         newCard,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
-      )
-      setCardDetails(response.data)
-      toast.success("Cartão adicionado com sucesso!")
-      setIsAddingCard(false)
+      );
+      setCardDetails(response.data);
+      toast.success("Cartão adicionado com sucesso!");
+      setIsAddingCard(false);
     } catch (error) {
-      toast.error("Erro ao adicionar cartão.", error)
+      console.error("Erro ao adicionar cartão:", error);
+      toast.error("Erro ao adicionar o cartão.");
     }
-  }
+  };
+
+  const cardNumberParts = cardDetails?.number?.split(" ") || [
+    "****",
+    "****",
+    "****",
+    "****",
+  ];
 
   return (
     <div className="card-container">
@@ -86,7 +100,7 @@ const Card = () => {
             height: "100vh",
           }}
         >
-          <CircularProgress /> 
+          <CircularProgress />
         </Box>
       ) : isAddingCard ? (
         <form onSubmit={handleAddCard} className="add-card-form">
@@ -152,16 +166,14 @@ const Card = () => {
                 <h1 className="card-title">LunarPay</h1>
                 <FaCcMastercard size={50} style={{ margin: "0 10px" }} />
               </div>
-
               <div className="card-header">
                 <h2>{cardDetails?.name}</h2>
               </div>
               <div className="card-body">
                 <div className="card-number">
-                  <span>{cardDetails?.number.split(" ")[0]}</span>
-                  <span>{cardDetails?.number.split(" ")[1]}</span>
-                  <span>{cardDetails?.number.split(" ")[2]}</span>
-                  <span>{cardDetails?.number.split(" ")[3]}</span>
+                  {cardNumberParts.map((part, index) => (
+                    <span key={index}>{part}</span>
+                  ))}
                 </div>
               </div>
             </div>
@@ -213,7 +225,7 @@ const Card = () => {
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Card
+export default Card;
