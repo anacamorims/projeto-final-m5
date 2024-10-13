@@ -8,6 +8,7 @@ import CurrencyExchangeRoundedIcon from "@mui/icons-material/CurrencyExchangeRou
 import PixRoundedIcon from "@mui/icons-material/PixRounded";
 import CurrencyBitcoinRoundedIcon from "@mui/icons-material/CurrencyBitcoinRounded";
 import Loader from "../../../components/loader/loader";
+import Animation from "../../../components/backgroundAnim/animation"
 
 export default function HomeApp() {
   const [userData, setUserData] = useState(null);
@@ -110,10 +111,7 @@ export default function HomeApp() {
 
   return (
     <>
-      <div className={styles.backgroundAnimation}>
-        <div className={styles.circleOne}></div>
-        <div className={styles.circleTwo}></div>
-      </div>
+      <Animation />
       <section className={styles.container}>
         <nav className={styles.navbar}>
           <div className={styles.avatarUser}>
