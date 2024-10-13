@@ -45,7 +45,7 @@
 
 }
 
-h2 {
+.titleTransfer > h2 {
     font-family: var(--main-font);
     font-size: 24px;
     color: #ffffff;
