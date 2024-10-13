@@ -1,7 +1,72 @@
+.backgroundAnimation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    background-color: #232533;
+  }
 
+  /* Círculo 1 */
+.circleOne {
+    width: 250px;
+    height: 250px;
+    background-color: rgba(34, 0, 118, 0.334);
+    filter: drop-shadow(0 0 20px rgba(131, 25, 163, 0.7));
+    border-radius: 50%;
+    position: absolute;
+    animation: moveOne 8s infinite ease-in-out;
+  }
+  
+  /* Círculo 2 */
+  .circleTwo {
+    width: 400px;
+    height: 400px;
+    background-color: rgba(0, 40, 61, 0.383);
+    filter: drop-shadow(0 0 20px rgba(0, 36, 101, 0.7));
+    border-radius: 50%;
+    position: absolute;
+    animation: moveTwo 10s infinite ease-in-out;
+  }
+
+  /* Animação dos círculos */
+@keyframes moveOne {
+    0% {
+      top: 10%;
+      left: 15%;
+    }
+    50% {
+      top: 50%;
+      left: 75%;
+    }
+    100% {
+      top: 10%;
+      left: 15%;
+    }
+  }
+  
+  @keyframes moveTwo {
+    0% {
+      top: 80%;
+      left: 70%;
+    }
+    50% {
+      top: 30%;
+      left: 20%;
+    }
+    100% {
+      top: 80%;
+      left: 70%;
+    }
+  }
 
 .container {
-    background-color: #232533;
+background: rgba(0, 0, 0, 0.34);
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(13.2px);
+-webkit-backdrop-filter: blur(13.2px);
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -48,6 +113,7 @@
 
 .containerResponse {
     height: 40%;
+    min-height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -87,7 +153,7 @@
 
 
 .icons .icon {
-    color: white;
+    color: rgb(216, 216, 216);
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -96,7 +162,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: not-allowed;
 
     @media (min-width: 768px) {
         width: 100%;
@@ -131,3 +197,20 @@
     width: 100%;
     height: 70px;
 }
+
+.card .two, .card .three {
+    position: absolute;
+    animation: floating 5s infinite;
+  }
+
+  @keyframes floating {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }

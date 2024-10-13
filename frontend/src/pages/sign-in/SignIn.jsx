@@ -36,8 +36,13 @@ export default function SignIn() {
 
       const data = await response.json();
 
+      console.log(data); // Adicione esta linha para verificar a resposta
+
+      
       if (response.ok) {
-        localStorage.setItem('authToken', data.token); // Salva o token recebido no localStorage
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('userId', data.userId); // Aqui, verifique se data.userId está definido
+        // Salva o token recebido no localStorage
         navigate('/dashboard'); // Redireciona para o dashboard após o login
       } else {
         setError(data.message || 'Login failed, please try again.');
