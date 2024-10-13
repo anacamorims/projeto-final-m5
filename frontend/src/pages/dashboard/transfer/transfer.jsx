@@ -3,7 +3,8 @@ import styles from "./transfer.module.css";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import TagRoundedIcon from "@mui/icons-material/TagRounded";
 import AttachMoneyRoundedIcon from "@mui/icons-material/AttachMoneyRounded";
-import Loader from './../../../components/loader/loader';
+import Loader from "./../../../components/loader/loader";
+import Animation from './../../../components/backgroundAnim/animation';
 
 export default function Transfer() {
   const [userData, setUserData] = useState(null);
@@ -74,7 +75,6 @@ export default function Transfer() {
         type: "transfer",
         description: formData.description,
       };
-      
 
       console.log("Payload enviado:", payload); // Verifica o payload
 
@@ -105,73 +105,84 @@ export default function Transfer() {
     }
   };
 
-  if (!userData) return <Loader/>; // Exibe mensagem de carregamento enquanto busca os dados
+  if (!userData) return <Loader />; // Exibe mensagem de carregamento enquanto busca os dados
 
   return (
-    <section className={styles.container}>
-      <nav className={styles.navbar}>
-        <div className={styles.avatarUser}>
-          <AccountCircleRoundedIcon />
+    <>
+      <Animation />
+
+      <section className={styles.container}>
+        <nav className={styles.navbar}>
+          <div className={styles.avatarUser}>
+            <AccountCircleRoundedIcon />
+          </div>
+          <div className={styles.welcomeText}>
+            <h4>{userData ? userData.name : "Carregando..."}</h4>
+          </div>
+        </nav>
+
+        <div className={styles.transferContent}>
+          <div className={styles.titleTransfer}>
+            <h2>Transferir</h2>
+          </div>
+
+          <form className={styles.formTransfer} onSubmit={handleSubmit}>
+            <div className={styles.input_field}>
+              <input
+                required
+                name="receiverId"
+                type="number"
+                value={formData.receiverId}
+                onChange={(e) =>
+                  setFormData({ ...formData, receiverId: e.target.value })
+                }
+              />
+              <label>Número da conta</label>
+              <span className={styles.icon}>
+                <TagRoundedIcon />
+              </span>
+            </div>
+            <div className={styles.input_field}>
+              <input
+                required
+                name="amount"
+                type="number"
+                value={formData.amount}
+                onChange={(e) =>
+                  setFormData({ ...formData, amount: e.target.value })
+                }
+              />
+              <label>Valor enviado</label>
+              <span className={styles.icon}>
+                <AttachMoneyRoundedIcon />
+              </span>
+            </div>
+            <div className={styles.textarea_field}>
+              <textarea
+                required
+                name="description"
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
+              ></textarea>
+              <label>Descrição</label>
+            </div>
+
+            <div className={styles.amount}>
+              <h4>Valor disponível</h4>
+              <h2>
+                <span>R$</span>{" "}
+                {userData ? userData.balance.toFixed(2) : "Carregando..."}
+              </h2>
+            </div>
+
+            <div className={styles.transferButton}>
+              <button type="submit">Transferir</button>
+            </div>
+          </form>
         </div>
-        <div className={styles.welcomeText}>
-          <h4>{userData ? userData.name : "Carregando..."}</h4>
-        </div>
-      </nav>
-
-      <div className={styles.transferContent}>
-        <div className={styles.titleTransfer}>
-          <h2>Transferir</h2>
-        </div>
-
-        <form className={styles.formTransfer} onSubmit={handleSubmit}>
-          <div className={styles.input_field}>
-            <input
-              required
-              name="receiverId"
-              type="number"
-              value={formData.receiverId}
-              onChange={(e) => setFormData({ ...formData, receiverId: e.target.value })}
-            />
-            <label>Número da conta</label>
-            <span className={styles.icon}>
-              <TagRoundedIcon />
-            </span>
-          </div>
-          <div className={styles.input_field}>
-            <input
-              required
-              name="amount"
-              type="number"
-              value={formData.amount}
-              onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-            />
-            <label>Valor enviado</label>
-            <span className={styles.icon}>
-              <AttachMoneyRoundedIcon />
-            </span>
-          </div>
-          <div className={styles.textarea_field}>
-            <textarea
-              required
-              name="description"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            ></textarea>
-            <label>Descrição</label>
-          </div>
-
-          <div className={styles.amount}>
-            <h4>Valor disponível</h4>
-            <h2>
-              <span>R$</span> {userData ? userData.balance.toFixed(2) : "Carregando..."}
-            </h2>
-          </div>
-
-          <div className={styles.transferButton}>
-            <button type="submit">Transferir</button>
-          </div>
-        </form>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

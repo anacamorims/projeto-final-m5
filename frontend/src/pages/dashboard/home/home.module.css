@@ -1,66 +1,4 @@
-.backgroundAnimation {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: -1;
-    background-color: #232533;
-  }
 
-  /* Círculo 1 */
-.circleOne {
-    width: 250px;
-    height: 250px;
-    background-color: rgba(34, 0, 118, 0.334);
-    filter: drop-shadow(0 0 20px rgba(131, 25, 163, 0.7));
-    border-radius: 50%;
-    position: absolute;
-    animation: moveOne 8s infinite ease-in-out;
-  }
-  
-  /* Círculo 2 */
-  .circleTwo {
-    width: 400px;
-    height: 400px;
-    background-color: rgba(0, 40, 61, 0.383);
-    filter: drop-shadow(0 0 20px rgba(0, 36, 101, 0.7));
-    border-radius: 50%;
-    position: absolute;
-    animation: moveTwo 10s infinite ease-in-out;
-  }
-
-  /* Animação dos círculos */
-@keyframes moveOne {
-    0% {
-      top: 10%;
-      left: 15%;
-    }
-    50% {
-      top: 50%;
-      left: 75%;
-    }
-    100% {
-      top: 10%;
-      left: 15%;
-    }
-  }
-  
-  @keyframes moveTwo {
-    0% {
-      top: 80%;
-      left: 70%;
-    }
-    50% {
-      top: 30%;
-      left: 20%;
-    }
-    100% {
-      top: 80%;
-      left: 70%;
-    }
-  }
 
 .container {
 background: rgba(0, 0, 0, 0.34);
@@ -188,20 +126,50 @@ backdrop-filter: blur(13.2px);
     list-style: none;
     padding: 0;
     margin-top: 1rem;
-    color: #fff;
   }
   
   .transactionItem {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    gap: 10px;
+    color: #fff;
+    margin-top: 10px;
   }
   
   .transactionItem strong {
     text-transform: capitalize;
   }
+
+.transactionIcon {
+    display: flex;
+    align-items: center;
+}
+
+.transactionIcon svg {
+    font-size: 35px;
+}
   
+.transactionContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.transactionContent .transactionTitle {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.transactionContent .transactionDate {
+    font-size: 14px;
+}
+
+.transactionBalance {
+    flex: 1;
+    display: flex;
+    justify-content: end;
+}
 
 
 .card .two, .card .three {
