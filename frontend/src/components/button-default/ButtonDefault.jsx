@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
 
-export default function ButtonDefault({ name: name }) {
+export default function ButtonDefault({ name: name, onClick }) {
     return (
         <Box 
             display="flex"
@@ -20,6 +20,7 @@ export default function ButtonDefault({ name: name }) {
                     fontFamily: "Poppins, system-ui" ,
                     textTransform: "none"
                 }}
+                onClick={onClick}
             >
                 {name}
             </Button>
