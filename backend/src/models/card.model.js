@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../database/db.js";  
+import sequelize from "../database/db.js"; 
 import User from "./user.model.js";  
 
 const Cartao = sequelize.define('Cartao', {
@@ -44,7 +44,6 @@ const Cartao = sequelize.define('Cartao', {
   timestamps: true, 
 });
 
-// Adicionando a associação
 Cartao.associate = (models) => {
   Cartao.belongsTo(models.User, {  
     foreignKey: 'usuarioId',
