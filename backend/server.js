@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3000;
 
 // Configurações de CORS (opcional)
 const corsOptions = {
-  origin: 'http://localhost:3000', // Mude para seu domínio de frontend
+  origin: 'http://localhost:5173', // Mude para seu domínio de frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 };
 
