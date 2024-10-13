@@ -53,7 +53,7 @@
     text-align: start;
 }
 
-form {
+.formTransfer {
     display: flex;
     flex-direction: column;
     justify-content: space-around;

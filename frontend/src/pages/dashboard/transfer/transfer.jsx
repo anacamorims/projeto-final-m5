@@ -23,7 +23,7 @@ export default function Transfer() {
           <h2>Transferir</h2>
         </div>
 
-        <form action="">
+        <form className={styles.formTransfer} action="">
           <div className={styles.input_field}>
             <input required name="numberAccont" type="number" />
             <label>Numero da conta</label>
