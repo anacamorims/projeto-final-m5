@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import './Profile.css'; 
+import React, { useEffect, useState } from "react";
+import "./Profile.css";
 import Loader from "../../../components/loader/loader";
-import translations from './translations';
+import translations from "./translations";
+import TagRoundedIcon from "@mui/icons-material/TagRounded";
+import Animation from "../../../components/backgroundAnim/animation";
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 
 const ProfilePage = () => {
   const userId = localStorage.getItem("userId");
   const [userData, setUserData] = useState(null);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(
-    JSON.parse(localStorage.getItem("notificationsEnabled")) || false
-  );
   const [loading, setLoading] = useState(false);
-  const [language, setLanguage] = useState(
-    localStorage.getItem("language") || 'en'
-  );
-
-
-  const [showContact, setShowContact] = useState(false);
-  const [showHelp, setShowHelp] = useState(false);
-  const [showPrivacy, setShowPrivacy] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phoneNumber: "",
+  });
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -38,6 +35,11 @@ const ProfilePage = () => {
 
         const data = await response.json();
         setUserData(data);
+        setFormData({
+          name: data.name || "",
+          email: data.email || "",
+          contactNumber: data.contactNumber || "",
+        });
       } catch (error) {
         console.error("Erro:", error);
       }
@@ -46,76 +48,120 @@ const ProfilePage = () => {
     fetchUserData();
   }, [userId]);
 
-  const toggleNotifications = () => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleUpdateProfile = async () => {
     setLoading(true);
-    const updatedStatus = !notificationsEnabled;
+    try {
+      const response = await fetch(
+        `https://projeto-final-m5-api.onrender.com/api/users/${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-    setNotificationsEnabled(updatedStatus);
-    localStorage.setItem("notificationsEnabled", JSON.stringify(updatedStatus));
+      if (!response.ok) {
+        throw new Error("Erro ao atualizar dados do usuário");
+      }
 
-    setLoading(false);
+      const updatedData = await response.json();
+      setUserData(updatedData);
+      alert("Perfil atualizado com sucesso!");
+    } catch (error) {
+      console.error("Erro:", error);
+      alert("Erro ao atualizar o perfil.");
+    } finally {
+      setLoading(false);
+    }
   };
-
-  const changeLanguage = (newLanguage) => {
-    setLanguage(newLanguage);
-    localStorage.setItem("language", newLanguage); 
-  };
-
-  
-  const toggleContact = () => setShowContact((prev) => !prev);
-  const toggleHelp = () => setShowHelp((prev) => !prev);
-  const togglePrivacy = () => setShowPrivacy((prev) => !prev);
 
   if (!userData) return <Loader />;
 
   return (
-    <div className="profile-page">
-      <div className="profile-header">
-        <h2>{translations[language].title}</h2>
-        <p>{userData.name}</p>
-        <p>{userData.email}</p>
-        <p>{userData.phone}</p>
-      </div>
-      <div className="scrollable-container">
-      <div className="profile-options">
-        <button>{translations[language].editProfile}</button>
-        <div className="profile-option">
-          <span>{translations[language].notifications}</span>
-          <span 
-            onClick={toggleNotifications} 
-            style={{ cursor: 'pointer', color: notificationsEnabled ? 'green' : 'red' }} 
+    <>
+      <Animation />
+      <div className="profile-page">
+        <nav className="navbar">
+          <div className="titleProfile">
+            <h2>Perfil</h2>
+          </div>
+        </nav>
+
+        <div className="headerProfile">
+          <div className="iconProfile">
+            <AccountCircleRoundedIcon />
+          </div>
+          <div className="headerText">
+            <h2>{userData ? userData.name : "Carregando..."}</h2>
+            <h5>{userData ? userData.accountNumber : "Carregando..."}</h5>
+          </div>
+        </div>
+
+        <div className="profileInfo">
+          <div className="input_field">
+            <input
+              required
+              name="name"
+              type="text"
+              value={formData.name}
+              onChange={handleInputChange}
+            />
+            <label>Nome</label>
+            <span className="icon">
+              <TagRoundedIcon />
+            </span>
+          </div>
+
+          <div className="input_field">
+            <input
+              required
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+            <label>E-mail</label>
+            <span className="icon">
+              <TagRoundedIcon />
+            </span>
+          </div>
+
+          <div className="input_field">
+            <input
+              required
+              name="phoneNumber"
+              type="text"
+              value={formData.contactNumber}
+              onChange={handleInputChange}
+            />
+            <label>Telefone</label>
+            <span className="icon">
+              <TagRoundedIcon />
+            </span>
+          </div>
+
+          <div className="SaveProfile">
+          <button
+            onClick={handleUpdateProfile}
+            disabled={loading}
+            style={{ marginTop: "20px" }}
           >
-            {notificationsEnabled ? 'ON' : 'OFF'}
-          </span>  
+            {loading ? "Salvando..." : "Salvar Alterações"}
+          </button>
         </div>
-        <div className="profile-option">
-          <span>{translations[language].language}</span>
-          <select onChange={(e) => changeLanguage(e.target.value)} value={language}>
-            <option value="en">English</option>
-            <option value="pt">Português</option>
-          </select>
         </div>
-        <div className="profile-option">
-          <span>{translations[language].security}</span>
-        </div>
-        <div className="profile-option">
-          <span>{translations[language].theme}</span>
-          <span>{userData.theme || 'Light mode'}</span>
-        </div>
+
+       
       </div>
-
-      <div className="profile-footer">
-        <button onClick={toggleHelp}>{translations[language].helpSupport}</button>
-        {showHelp && <p>Perguntas frequentes.</p>}
-
-        <button onClick={toggleContact}>{translations[language].contactUs}</button>
-        {showContact && <p>Entre em contato via e-mail: support@gmail.com.</p>}
-
-        <button onClick={togglePrivacy}>{translations[language].privacyPolicy}</button>
-        {showPrivacy && <p>Todos os direitos reservados e protegidos.</p>}
-      </div>
-    </div>
-    </div>
+    </>
   );
 };
 
