@@ -188,20 +188,50 @@ backdrop-filter: blur(13.2px);
     list-style: none;
     padding: 0;
     margin-top: 1rem;
-    color: #fff;
   }
   
   .transactionItem {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    gap: 10px;
+    color: #fff;
+    margin-top: 10px;
   }
   
   .transactionItem strong {
     text-transform: capitalize;
   }
+
+.transactionIcon {
+    display: flex;
+    align-items: center;
+}
+
+.transactionIcon svg {
+    font-size: 35px;
+}
   
+.transactionContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.transactionContent .transactionTitle {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.transactionContent .transactionDate {
+    font-size: 14px;
+}
+
+.transactionBalance {
+    flex: 1;
+    display: flex;
+    justify-content: end;
+}
 
 
 .card .two, .card .three {
