@@ -83,9 +83,12 @@ body {
     background-color: #555;
   }
   .profile-footer p{
-    font-size: 14px;
+    font-size: 11px;
   }
-  
+  .scrollable-container {
+    height: 400px; 
+    overflow-y : auto; 
+  }
   
   /* Responsive design */
   @media (max-width: 600px) {

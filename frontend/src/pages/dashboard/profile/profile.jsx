@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './Profile.css'; // Import the responsive CSS file
+import './Profile.css'; 
 import Loader from "../../../components/loader/loader";
 import translations from './translations';
 
@@ -14,7 +14,7 @@ const ProfilePage = () => {
     localStorage.getItem("language") || 'en'
   );
 
-  // Estados para controlar a visibilidade dos textos
+
   const [showContact, setShowContact] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
@@ -58,10 +58,10 @@ const ProfilePage = () => {
 
   const changeLanguage = (newLanguage) => {
     setLanguage(newLanguage);
-    localStorage.setItem("language", newLanguage); // Salva a nova linguagem no local storage
+    localStorage.setItem("language", newLanguage); 
   };
 
-  // Funções para alternar a visibilidade dos textos
+  
   const toggleContact = () => setShowContact((prev) => !prev);
   const toggleHelp = () => setShowHelp((prev) => !prev);
   const togglePrivacy = () => setShowPrivacy((prev) => !prev);
@@ -76,14 +76,14 @@ const ProfilePage = () => {
         <p>{userData.email}</p>
         <p>{userData.phone}</p>
       </div>
-
+      <div className="scrollable-container">
       <div className="profile-options">
         <button>{translations[language].editProfile}</button>
         <div className="profile-option">
           <span>{translations[language].notifications}</span>
           <span 
             onClick={toggleNotifications} 
-            style={{ cursor: 'pointer', color: notificationsEnabled ? 'green' : 'red' }} // Estilizando para parecer um botão
+            style={{ cursor: 'pointer', color: notificationsEnabled ? 'green' : 'red' }} 
           >
             {notificationsEnabled ? 'ON' : 'OFF'}
           </span>  
@@ -114,6 +114,7 @@ const ProfilePage = () => {
         <button onClick={togglePrivacy}>{translations[language].privacyPolicy}</button>
         {showPrivacy && <p>Todos os direitos reservados e protegidos.</p>}
       </div>
+    </div>
     </div>
   );
 };
