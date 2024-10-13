@@ -20,9 +20,8 @@ const Card = () => {
         }
         const data = await response.json();
 
-        // Verifique se os dados do cartão são válidos e atualize o estado
         if (Array.isArray(data) && data.length > 0) {
-          const cardInfo = data[0]; // Acesse o primeiro cartão
+          const cardInfo = data[0]; 
           setCardData({
             type: cardInfo.tipo || "x",
             number: cardInfo.numero || "xxxxxxxxxxxxxxxx",
@@ -31,7 +30,6 @@ const Card = () => {
             cardholderName: cardInfo.bandeira || "xxxxxxxx",
           });
         } else {
-          // Se não encontrar dados do cartão, use os valores padrão
           setCardData({
             type: "x",
             number: "xxxxxxxxxxxxxxxx",

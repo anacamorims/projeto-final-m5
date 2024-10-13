@@ -64,7 +64,7 @@ export default function Home() {
             title={"Transation"}
             description={"lorem ipsum seila seila ipsin"}
           />
-        </div> 
+    </div>
       </section>
     </>
   );
