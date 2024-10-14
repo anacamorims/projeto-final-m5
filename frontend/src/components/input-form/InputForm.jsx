@@ -1,12 +1,14 @@
 import { InputAdornment, TextField } from "@mui/material";
 import style from "./InputForm.module.css";
 
-export default function InputForm({ label: label, type, icon: IconComponent, onChange }) {
+export default function InputForm({ label: label, type, icon: IconComponent, name, value, onChange }) {
     return (
         <>
             <label className={style.label__form}>{label}</label>
             <TextField
                 type={type}
+                name={name}
+                value={value}
                 onChange={onChange}
                 slotProps={{
                     input: {
