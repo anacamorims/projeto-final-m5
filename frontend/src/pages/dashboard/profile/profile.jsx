@@ -82,7 +82,7 @@ const ProfilePage = () => {
       setLoading(false);
     }
   };
-
+ 
   if (!userData) return <Loader />;
 
   return (
