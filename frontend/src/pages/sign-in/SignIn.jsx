@@ -66,9 +66,11 @@ export default function SignIn() {
   return (
     <div className={style.container_form}>
       <BackButton to="/" />
+      
       <h1 className={style.title__form}>Sign In</h1>
+
       {error && <p className={style.error_message}>{error}</p>}{" "}
-      {/* Exibe mensagem de erro */}
+
       <form onSubmit={handleSubmit}>
         <InputForm
           label="Email Address"
