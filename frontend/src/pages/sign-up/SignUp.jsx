@@ -85,13 +85,13 @@ export default function SignUp() {
     <div className={style.container_form}>
       <BackButton to="/" />
 
-      <h1 className={style.title__form}>Sign Up</h1>
+      <h1 className={style.title__form}>Cadastro</h1>
 
       {error && <p className={style.error_message}>{error}</p>} 
 
       <form onSubmit={handleSubmit}>
         <InputForm
-          label="Full Name"
+          label="Nome Completo"
           type="text"
           icon={PersonIcon}
           name="name" 
@@ -100,7 +100,7 @@ export default function SignUp() {
         />
 
         <InputForm
-          label="Phone Number"
+          label="Número de Telefone"
           type="text"
           icon={PhoneOutlinedIcon}
           name="accountNumber" 
@@ -109,7 +109,7 @@ export default function SignUp() {
         />
 
         <InputForm
-          label="Email Address"
+          label="Email"
           type="email"
           icon={EmailOutlinedIcon}
           name="email" 
@@ -118,7 +118,7 @@ export default function SignUp() {
         />
 
         <InputForm
-          label="Password"
+          label="Senha"
           type="password"
           icon={LockOutlinedIcon}
           name="password" 
