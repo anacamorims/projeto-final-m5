@@ -36,20 +36,19 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ message: 'Credenciais inválidas' });
     }
 
-    // Verifica a senha
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Credenciais inválidas' });
     }
 
-    // Gera um token JWT
     const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '5h' });
 
-    res.status(200).json({ message: 'Login bem-sucedido', token });
+    res.status(200).json({ message: 'Login bem-sucedido', token, userId: user.id });
   } catch (error) {
     res.status(500).json({ message: 'Erro ao fazer login', error: error.message });
   }
 };
+
 
 export const getUser = async (req, res) => {
   const { id } = req.params;
