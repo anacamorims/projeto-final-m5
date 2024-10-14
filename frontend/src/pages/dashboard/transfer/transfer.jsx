@@ -129,7 +129,7 @@ export default function Transfer() {
           <form className={styles.formTransfer} onSubmit={handleSubmit}>
             <div className={styles.input_field}>
               <input
-                required
+                required 
                 name="receiverId"
                 type="number"
                 value={formData.receiverId}

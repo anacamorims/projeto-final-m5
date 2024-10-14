@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Profile.css";
+import styles from "./Profile.module.css"; // Importando os estilos
 import Loader from "../../../components/loader/loader";
 import translations from "./translations";
 import TagRoundedIcon from "@mui/icons-material/TagRounded";
@@ -88,25 +88,25 @@ const ProfilePage = () => {
   return (
     <>
       <Animation />
-      <div className="profile-page">
-        <nav className="navbar">
-          <div className="titleProfile">
+      <div className={styles.profilePage}> {/* Usando estilos do módulo */}
+        <nav className={styles.navbar}>
+          <div className={styles.titleProfile}> 
             <h2>Perfil</h2>
           </div>
         </nav>
 
-        <div className="headerProfile">
-          <div className="iconProfile">
+        <div className={styles.headerProfile}>
+          <div className={styles.iconProfile}>
             <AccountCircleRoundedIcon />
           </div>
-          <div className="headerText">
+          <div className={styles.headerText}>
             <h2>{userData ? userData.name : "Carregando..."}</h2>
             <h5>{userData ? userData.accountNumber : "Carregando..."}</h5>
           </div>
         </div>
 
-        <div className="profileInfo">
-          <div className="input_field">
+        <div className={styles.profileInfo}>
+          <div className={styles.input_field}>
             <input
               required
               name="name"
@@ -115,12 +115,12 @@ const ProfilePage = () => {
               onChange={handleInputChange}
             />
             <label>Nome</label>
-            <span className="icon">
+            <span className={styles.icon}>
               <TagRoundedIcon />
             </span>
           </div>
 
-          <div className="input_field">
+          <div className={styles.input_field}>
             <input
               required
               name="email"
@@ -129,12 +129,12 @@ const ProfilePage = () => {
               onChange={handleInputChange}
             />
             <label>E-mail</label>
-            <span className="icon">
+            <span className={styles.icon}>
               <TagRoundedIcon />
             </span>
           </div>
 
-          <div className="input_field">
+          <div className={styles.input_field}>
             <input
               required
               name="phoneNumber"
@@ -143,23 +143,21 @@ const ProfilePage = () => {
               onChange={handleInputChange}
             />
             <label>Telefone</label>
-            <span className="icon">
+            <span className={styles.icon}>
               <TagRoundedIcon />
             </span>
           </div>
 
-          <div className="SaveProfile">
-          <button
-            onClick={handleUpdateProfile}
-            disabled={loading}
-            style={{ marginTop: "20px" }}
-          >
-            {loading ? "Salvando..." : "Salvar Alterações"}
-          </button>
+          <div className={styles.SaveProfile}>
+            <button
+              onClick={handleUpdateProfile}
+              disabled={loading}
+              style={{ marginTop: "20px" }}
+            >
+              {loading ? "Salvando..." : "Salvar Alterações"}
+            </button>
+          </div>
         </div>
-        </div>
-
-       
       </div>
     </>
   );
