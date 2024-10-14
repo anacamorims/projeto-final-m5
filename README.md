@@ -96,6 +96,8 @@ https://projeto-final-m5-api.onrender.com
 * Método HTTP: POST
 * Descrição:  Autentica um usuário no sistema.
 
+## LINKEDIN
+Post: https://www.linkedin.com/posts/ana-carolina-amorim-de-souza_lunar-pay-o-futuro-da-gest%C3%A3o-financeira-activity-7251628929319342081-emD3?utm_source=share&utm_medium=member_desktop
 
 # 🖼️ Screenshots
 Aqui estão algumas imagens da interface da aplicação para visualização:
