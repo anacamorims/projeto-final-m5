@@ -20,6 +20,7 @@ const Card = () => {
         }
         const data = await response.json();
 
+        // Verifique se os dados do cartão são válidos e atualize o estado
         if (Array.isArray(data) && data.length > 0) {
           const cardInfo = data[0]; 
           setCardData({
@@ -53,6 +54,8 @@ const Card = () => {
 
     fetchCardData();
   }, [userId]);
+
+  
 
   return (
     <div className={styles.card}>

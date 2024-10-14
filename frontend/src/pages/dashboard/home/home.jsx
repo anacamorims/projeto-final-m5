@@ -81,25 +81,29 @@ export default function HomeApp() {
     }
   };
 
+  
   const prepareTransactions = async () => {
     const transactionsWithTitles = await Promise.all(
       transactions.map(async (transaction) => {
         const otherUserId =
-          transaction.userId !== parseInt(userId) ? transaction.userId : null;
-        const otherUserName = otherUserId
-          ? await fetchUserName(otherUserId)
-          : "Você";
-
+          transaction.userId === parseInt(userId) ? transaction.receiverId : transaction.userId;
+  
+        const otherUserName = await fetchUserName(otherUserId);
+  
         const title =
           transaction.amount < 0
-            ? `Transferência para ${otherUserName}`
-            : `Recebimento de ${otherUserName}`;
-
+            ? `Transferencia` 
+            : `Recebimento`; 
+  
         return { ...transaction, title };
       })
     );
+  
     setTransactions(transactionsWithTitles);
   };
+  
+  
+  
 
   useEffect(() => {
     if (transactions.length > 0) {

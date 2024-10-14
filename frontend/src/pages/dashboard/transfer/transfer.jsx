@@ -118,7 +118,7 @@ export default function Transfer() {
           </div>
           <div className={styles.welcomeText}>
             <h4>{userData ? userData.name : "Carregando..."}</h4>
-          </div>
+          </div> 
         </nav>
 
         <div className={styles.transferContent}>
