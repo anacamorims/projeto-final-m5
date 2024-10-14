@@ -1,7 +1,10 @@
 
 
 .container {
-    background-color: #232533;
+background: rgba(0, 0, 0, 0.34);
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(13.2px);
+-webkit-backdrop-filter: blur(13.2px);
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -48,6 +51,7 @@
 
 .containerResponse {
     height: 40%;
+    min-height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -87,7 +91,7 @@
 
 
 .icons .icon {
-    color: white;
+    color: rgb(216, 216, 216);
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -96,7 +100,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: not-allowed;
 
     @media (min-width: 768px) {
         width: 100%;
@@ -118,16 +122,69 @@
     color: white;
 }
 
-.bottomNavigation {
-    background-color: rgb(35, 35, 80);
+.transactionsList {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+  
+  .transactionItem {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    height: 3rem;
-    padding: 0 1rem;
-    color: white;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 70px;
+    padding: 10px;
+    gap: 10px;
+    color: #fff;
+    margin-top: 10px;
+  }
+  
+  .transactionItem strong {
+    text-transform: capitalize;
+  }
+
+.transactionIcon {
+    display: flex;
+    align-items: center;
 }
+
+.transactionIcon svg {
+    font-size: 35px;
+}
+  
+.transactionContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.transactionContent .transactionTitle {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.transactionContent .transactionDate {
+    font-size: 14px;
+}
+
+.transactionBalance {
+    flex: 1;
+    display: flex;
+    justify-content: end;
+}
+
+
+.card .two, .card .three {
+    position: absolute;
+    animation: floating 5s infinite;
+  }
+
+  @keyframes floating {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }

@@ -1,84 +1,75 @@
+import { useEffect, useState } from "react";
 import styles from "./card.module.css";
 
 const Card = () => {
+  const [cardData, setCardData] = useState({
+    type: "x",
+    number: "xxxxxxxxxxxxxxxx",
+    expiryDate: "xx/xx",
+    expiryDateFormatted: "xx/xx",
+    cardholderName: "xxxxxxxx",
+  });
+  const userId = localStorage.getItem("userId"); // Certifique-se de que "userId" é a chave correta
+
+  useEffect(() => {
+    const fetchCardData = async () => {
+      try {
+        const response = await fetch(`https://projeto-final-m5-api.onrender.com/${userId}/card`);
+        if (!response.ok) {
+          throw new Error("Erro ao buscar dados do cartão");
+        }
+        const data = await response.json();
+
+        // Verifique se os dados do cartão são válidos e atualize o estado
+        if (Array.isArray(data) && data.length > 0) {
+          const cardInfo = data[0]; 
+          setCardData({
+            type: cardInfo.tipo || "x",
+            number: cardInfo.numero || "xxxxxxxxxxxxxxxx",
+            expiryDate: cardInfo.vencimento || "xx/xx",
+            expiryDateFormatted: cardInfo.vencimento || "xx/xx",
+            cardholderName: cardInfo.bandeira || "xxxxxxxx",
+          });
+        } else {
+          setCardData({
+            type: "x",
+            number: "xxxxxxxxxxxxxxxx",
+            expiryDate: "xx/xx",
+            expiryDateFormatted: "xx/xx",
+            cardholderName: "xxxxxxxx",
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        // Em caso de erro, preencha os dados com valores padrão
+        setCardData({
+          type: "x",
+          number: "xxxxxxxxxxxxxxxx",
+          expiryDate: "xx/xx",
+          expiryDateFormatted: "xx/xx",
+          cardholderName: "xxxxxxxx",
+        });
+      }
+    };
+
+    fetchCardData();
+  }, [userId]);
+
+  
+
   return (
     <div className={styles.card}>
       <div className={styles.cardInfo}>
-        <div className={styles.cardLogo}>MasterCard</div>
+        <div className={styles.cardLogo}></div>
         <div className={styles.cardChip}>
-          <svg
-            className={styles.cardChipLines}
-            role="img"
-            width="20px"
-            height="20px"
-            viewBox="0 0 100 100"
-            aria-label="Chip"
-          >
-            <g opacity="0.8">
-              <polyline
-                points="0,50 35,50"
-                fill="none"
-                stroke="#000"
-                strokeWidth="2"
-              ></polyline>
-              <polyline
-                points="0,20 20,20 35,35"
-                fill="none"
-                stroke="#000"
-                strokeWidth="2"
-              ></polyline>
-              <polyline
-                points="50,0 50,35"
-                fill="none"
-                stroke="#000"
-                strokeWidth="2"
-              ></polyline>
-              <polyline
-                points="65,35 80,20 100,20"
-                fill="none"
-                stroke="#000"
-                strokeWidth="2"
-              ></polyline>
-              <polyline
-                points="100,50 65,50"
-                fill="none"
-                stroke="#000"
-                strokeWidth="2"
-              ></polyline>
-              <polyline
-                points="35,35 65,35 65,65 35,65 35,35"
-                fill="none"
-                stroke="#000"
-                strokeWidth="2"
-              ></polyline>
-              <polyline
-                points="0,80 20,80 35,65"
-                fill="none"
-                stroke="#000"
-                strokeWidth="2"
-              ></polyline>
-              <polyline
-                points="50,100 50,65"
-                fill="none"
-                stroke="#000"
-                strokeWidth="2"
-              ></polyline>
-              <polyline
-                points="65,65 80,80 100,80"
-                fill="none"
-                stroke="#000"
-                strokeWidth="2"
-              ></polyline>
-            </g>
-          </svg>
-          <div className={styles.cardChipTexture}></div>
+          {/* SVG para o chip do cartão */}
         </div>
-        <div className={styles.cardType}>debit</div>
+        <div className={styles.cardType}>{cardData.type}</div>
         <div className={styles.cardNumber}>
-          <span className={styles.cardDigitGroup}>0123</span>
-          <span className={styles.cardDigitGroup}>4567</span>
-          <span className={styles.cardDigitGroup}>8901</span>
-          <span className={styles.cardDigitGroup}>2345</span>
+          <span className={styles.cardDigitGroup}>{cardData.number.slice(0, 4)}</span>
+          <span className={styles.cardDigitGroup}>{cardData.number.slice(4, 8)}</span>
+          <span className={styles.cardDigitGroup}>{cardData.number.slice(8, 12)}</span>
+          <span className={styles.cardDigitGroup}>{cardData.number.slice(12, 16)}</span>
         </div>
         <div className={styles.cardValidThru} aria-label="Valid thru">
           Valid
@@ -86,10 +77,10 @@ const Card = () => {
           thru
         </div>
         <div className={styles.cardExpDate}>
-          <time dateTime="2038-01">01/38</time>
+          <time dateTime={cardData.expiryDate}>{cardData.expiryDateFormatted}</time>
         </div>
-        <div className={styles.cardName} aria-label="Dee Stroyer">
-          Jk Huger
+        <div className={styles.cardName} aria-label={cardData.cardholderName}>
+          {cardData.cardholderName}
         </div>
         <div
           className={styles.cardVendor}
@@ -97,7 +88,7 @@ const Card = () => {
           aria-labelledby="card-vendor"
         >
           <span id="card-vendor" className={styles.cardVendorSr}>
-            Mastercard
+            {cardData.type}
           </span>
         </div>
         <div className={styles.cardTexture}></div>
@@ -106,4 +97,4 @@ const Card = () => {
   );
 };
 
-export default Card; // Esta linha garante a exportação padrão
+export default Card;

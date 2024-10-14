@@ -7,7 +7,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Poppins";
 }
+<<<<<<< HEAD
 
 .install-modal {
   position: fixed;
@@ -131,3 +133,5 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 } */
+=======
+>>>>>>> caeeced9474c0c880ec3059b2527872b8c92a159

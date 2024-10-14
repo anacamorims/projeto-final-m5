@@ -1,0 +1,14 @@
+.container__cards {
+  display: flex;
+  justify-content: center;
+  margin: 2.5em 1em;
+}
+
+.cards {
+  list-style: none;
+  background-color: #e9e9e9;
+  padding: 1em;
+  border-radius: 10px;
+  width: 19em;
+}
+

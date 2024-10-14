@@ -5,6 +5,7 @@ import "./App.css";
 import IconeApp from "./assets/app.png";
 
 export default function App() {
+<<<<<<< HEAD
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallModal, setShowInstallModal] = useState(false);
   const [redirectToDashboard, setRedirectToDashboard] = useState(false);
@@ -68,4 +69,7 @@ export default function App() {
       )}
     </div>
   );
+=======
+  return ( <Outlet /> )
+>>>>>>> caeeced9474c0c880ec3059b2527872b8c92a159
 }
