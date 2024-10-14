@@ -24,10 +24,7 @@ export default function Home() {
           
           <div className={styles.homeText}>
             <p>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat,
-              totam soluta eveniet, laudantium unde dolore doloremque ipsam
-              accusamus commodi quia veritatis. Alias ratione hic cupiditate
-              inventore quisquam maiores facere sint!
+              Um banco digital focado em pequenas empresas, oferecendo funcionalidades que auxiliam no gerenciamento financeiro com simplicidade e eficiência. O banco digital busca resolver os desafios de gestão financeira enfrentados por pequenos negócios, fornecendo uma solução acessível, intuitiva e adaptada às suas necessidades.
             </p>
 
             <Box sx={{ display: "flex", gap: 2}}>
@@ -51,18 +48,18 @@ export default function Home() {
         <div className={styles.container_cards_home}>
           <CardHome
             icon={AccountBalanceWalletOutlinedIcon}
-            title={"Accounts"}
-            description={"lorem ipsum seila seila ipsin"}
+            title={"Contas"}
+            description={" As pequenas empresas podem criar contas com facilidade, utilizando um processo de verificação digital simples e seguro."}
           />
            <CardHome
             icon={CreditCardIcon}
-            title={"Accounts Cards"}
-            description={"lorem ipsum seila seila ipsin"}
+            title={"Cartões"}
+            description={"O banco permite o gerenciamento de cartões de débito/crédito, incluindo emissão, bloqueio e atualização de informações."}
           />
             <CardHome
             icon={WifiProtectedSetupIcon}
-            title={"Transation"}
-            description={"lorem ipsum seila seila ipsin"}
+            title={"Transação"}
+            description={"As transações (depósitos, saques, transferências) serão simuladas para proporcionar uma experiência completa de operação bancária."}
           />
         </div>
       </section>

@@ -67,20 +67,20 @@ export default function SignIn() {
     <div className={style.container_form}>
       <BackButton to="/" />
       
-      <h1 className={style.title__form}>Sign In</h1>
+      <h1 className={style.title__form}>Login</h1>
 
       {error && <p className={style.error_message}>{error}</p>}{" "}
 
       <form onSubmit={handleSubmit}>
         <InputForm
-          label="Email Address"
+          label="Email"
           type="email"
           icon={EmailOutlinedIcon}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <InputForm
-          label="Password"
+          label="Senha"
           type="password"
           icon={LockOutlinedIcon}
           value={password}
