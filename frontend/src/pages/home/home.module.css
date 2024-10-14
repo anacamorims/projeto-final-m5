@@ -34,7 +34,7 @@
 }
 
 @media (min-width: 768px) {
-    .container__cards__home {
+    .container_cards_home {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
