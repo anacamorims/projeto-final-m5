@@ -1,172 +1,427 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "Bank API",
-      "version": "1.0.0",
-      "description": "API para um sistema bancário fictício."
-    },
-    "servers": [
-      {
-        "url": "http://localhost:3000"
-      }
-    ],
-    "paths": {
-      "/users/{id}": {
-        "get": {
-          "summary": "Get user by ID",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "description": "ID of the user",
-              "schema": {
-                "type": "integer"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "User details",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "User not found"
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Lunar Pay API",
+    "version": "1.0.0",
+    "description": "API para um sistema bancário fictício."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api-docs"
+    }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "summary": "Obter usuário por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do usuário",
+            "schema": {
+              "type": "integer"
             }
           }
-        }
-      },
-      "/transactions": {
-        "post": {
-          "summary": "Create a new transaction",
-          "requestBody": {
-            "required": true,
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes do usuário",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Transaction"
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
           },
-          "responses": {
-            "201": {
-              "description": "Transaction created successfully"
-            },
-            "404": {
-              "description": "Sender or receiver not found"
-            },
-            "400": {
-              "description": "Insufficient balance"
-            }
-          }
-        }
-      },
-      "/history/{accountNumber}": {
-        "get": {
-          "summary": "Get transaction history for a user",
-          "parameters": [
-            {
-              "name": "accountNumber",
-              "in": "path",
-              "required": true,
-              "description": "Account number of the user",
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Transaction history for the user",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/Transaction"
-                    }
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "No transactions found for this account number"
-            },
-            "500": {
-              "description": "Error retrieving transaction history"
-            }
+          "404": {
+            "description": "Usuário não encontrado"
           }
         }
       }
     },
-    "components": {
-      "schemas": {
-        "User": {
-          "type": "object",
-          "properties": {
-            "id": {
+    "/users/{id}/card": {
+      "post": {
+        "summary": "Criar um novo cartão para um usuário",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do usuário",
+            "schema": {
               "type": "integer"
-            },
-            "accountNumber": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            },
-            "email": {
-              "type": "string"
-            },
-            "password": {
-              "type": "string"
-            },
-            "contactNumber": {
-              "type": "string"
-            },
-            "balance": {
-              "type": "number"
-            },
-            "active": {
-              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Card"
+              }
             }
           }
         },
-        "Transaction": {
-          "type": "object",
-          "properties": {
-            "senderId": {
-              "type": "string"
-            },
-            "receiverId": {
-              "type": "string"
-            },
-            "amount": {
-              "type": "number"
-            },
-            "type": {
-              "type": "string",
-              "enum": ["transfer", "deposit", "withdraw"]
-            },
-            "description": {
-              "type": "string"
-            },
-            "createdAt": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "updatedAt": {
-              "type": "string",
-              "format": "date-time"
+        "responses": {
+          "201": {
+            "description": "Cartão criado com sucesso"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      },
+      "get": {
+        "summary": "Obter cartões de um usuário",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do usuário",
+            "schema": {
+              "type": "integer"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de cartões do usuário",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Card"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário ou cartões não encontrados"
+          }
+        }
+      }
+    },
+    "/history/{accountNumber}": {
+      "get": {
+        "summary": "Obter histórico de transações para um usuário",
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "required": true,
+            "description": "Número da conta do usuário",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Histórico de transações para o usuário",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/History"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Nenhuma transação encontrada para este número de conta"
+          },
+          "500": {
+            "description": "Erro ao recuperar o histórico de transações"
+          }
+        }
+      }
+    },
+    "/api/transactions": {
+      "post": {
+        "summary": "Criar uma nova transação",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transação criada com sucesso"
+          },
+          "400": {
+            "description": "Dados de transação inválidos"
+          },
+          "404": {
+            "description": "Remetente ou destinatário não encontrado"
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "post": {
+        "summary": "Criar um novo usuário",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso"
+          },
+          "400": {
+            "description": "Dados do usuário inválidos"
+          }
+        }
+      }
+    },
+    "/api/login": {
+      "post": {
+        "summary": "Login do usuário",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login bem-sucedido"
+          },
+          "401": {
+            "description": "Credenciais inválidas"
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "put": {
+        "summary": "Atualizar um usuário por ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar um usuário por ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do usuário",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário deletado com sucesso"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
           }
         }
       }
     }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "Número da conta do usuário"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do usuário"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email do usuário"
+          },
+          "password": {
+            "type": "string",
+            "description": "Senha do usuário"
+          },
+          "contactNumber": {
+            "type": "string",
+            "description": "Número de contato do usuário"
+          },
+          "balance": {
+            "type": "number",
+            "description": "Saldo da conta do usuário"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Status da conta do usuário"
+          }
+        }
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "senderId": {
+            "type": "string",
+            "description": "ID do remetente da transação"
+          },
+          "receiverId": {
+            "type": "string",
+            "description": "ID do destinatário da transação"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Valor da transação"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["transfer", "deposit", "withdraw"],
+            "description": "Tipo de transação"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descrição da transação"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Card": {
+        "type": "object",
+        "properties": {
+          "numero": {
+            "type": "string",
+            "description": "Número do cartão"
+          },
+          "vencimento": {
+            "type": "string",
+            "format": "date",
+            "description": "Data de vencimento do cartão"
+          },
+          "codigo_seg": {
+            "type": "integer",
+            "description": "Código de segurança do cartão"
+          },
+          "bandeira": {
+            "type": "string",
+            "description": "Bandeira do cartão"
+          },
+          "usuario_id": {
+            "type": "integer",
+            "description": "ID do usuário proprietário do cartão"
+          }
+        }
+      },
+      "History": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "integer",
+            "description": "ID da transação"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data da transação"
+          },
+          "type": {
+            "type": "string",
+            "description": "Tipo da transação"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Valor da transação"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descrição da transação"
+          }
+        }
+      },
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email do usuário"
+          },
+          "password": {
+            "type": "string",
+            "description": "Senha do usuário"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
   }
-  
+}
