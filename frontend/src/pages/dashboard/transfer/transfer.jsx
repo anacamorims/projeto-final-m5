@@ -118,7 +118,7 @@ export default function Transfer() {
           </div>
           <div className={styles.welcomeText}>
             <h4>{userData ? userData.name : "Carregando..."}</h4>
-          </div>
+          </div> 
         </nav>
 
         <div className={styles.transferContent}>
@@ -129,7 +129,7 @@ export default function Transfer() {
           <form className={styles.formTransfer} onSubmit={handleSubmit}>
             <div className={styles.input_field}>
               <input
-                required
+                required 
                 name="receiverId"
                 type="number"
                 value={formData.receiverId}

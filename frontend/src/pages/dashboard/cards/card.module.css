@@ -1,0 +1,253 @@
+.container {
+  background: rgba(0, 0, 0, 0.34);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(13.2px);
+  -webkit-backdrop-filter: blur(13.2px);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 1rem 1rem;
+  color: white;
+}
+
+.navbar .avatarUser {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatarUser svg {
+  width: 100%;
+  height: 100%;
+}
+
+.navbar .welcomeText {
+  font-family: var(--main-font);
+  font-size: 18px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar .welcomeText span {
+  color: rgb(119, 119, 119);
+}
+
+.transferContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.titleTransfer > h2 {
+  font-family: var(--main-font);
+  font-size: 24px;
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-align: start;
+}
+
+.cardContent {
+  padding: 1rem;
+  height: 300px;
+  width: 100%;
+  margin: 1rem;
+}
+
+.createCard {
+  background: #6495ed;
+  width: 90%;
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  /* From https://css.glass */
+  background: rgba(0, 61, 89, 0.46);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(9.4px);
+  -webkit-backdrop-filter: blur(9.4px);
+  border: 1px solid rgba(0, 61, 89, 0.3);
+  padding: 20px;
+  border-radius: 5px;
+  width: 500px;
+  max-width: 90%;
+  height: 50%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalContent h2 {
+  color: #fff;
+}
+
+.modalContent form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.modalContent form button {
+  background: #6495ed;
+  width: 100%;
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.input_field {
+  position: relative;
+  margin: 15px 0;
+}
+
+.input_field label {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  left: 30%;
+  transform: translateY(-50%) translateX(-30%);
+  color: rgb(119, 119, 119);
+  font-size: 16px;
+  pointer-events: none;
+  transition: 0.15s ease;
+  text-align: justify;
+}
+
+.input_field .icon {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.input_field input {
+  width: 100%;
+  height: 40px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #fff;
+  border-bottom: 2px solid rgb(119, 119, 119);
+  padding-left: 30px;
+  transition: border-bottom 0.3s ease;
+}
+
+.input_field input:focus {
+  border-bottom: 2px solid #ffffff;
+}
+
+.input_field input:focus + label,
+.input_field input:valid + label {
+  font-size: 0.8rem;
+  top: 10px;
+  transform: translateY(-150%) translateX(-30%);
+  color: white;
+}
+
+.input_field input:focus ~ .icon,
+.input_field input:valid ~ .icon {
+  opacity: 1;
+}
+
+.radioInput {
+  --container_width: 300px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #000000;
+  width: var(--container_width);
+  overflow: hidden;
+  border: 1px solid rgba(53, 52, 52, 0.226);
+}
+
+.radioInput input {
+  display: none;
+}
+
+.radioInput label {
+  width: 100%;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  font-weight: 600;
+  letter-spacing: -1px;
+  font-size: 14px;
+}
+
+.selection {
+  display: none;
+  position: absolute;
+  height: 100%;
+  width: calc(var(--container_width) / 2);
+  z-index: 0;
+  left: 0;
+  top: 0;
+  transition: 0.15s ease;
+}
+
+.radioInput label:has(input:checked) {
+  color: #fff;
+}
+
+.radioInput label:has(input:checked) ~ .selection {
+  background-color: #6495ed;
+  display: inline-block;
+}
+
+.radioInput label:nth-child(1):has(input:checked) ~ .selection {
+  transform: translateX(calc(var(--container_width) * 0 / 2));
+}
+
+.radioInput label:nth-child(2):has(input:checked) ~ .selection {
+  transform: translateX(calc(var(--container_width) * 1 / 2));
+}
+
+input:disabled + span {
+  color: #ccc; /* Estilo para opções desativadas */
+  cursor: not-allowed;
+}
