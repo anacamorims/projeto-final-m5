@@ -1,6 +1,6 @@
 :root {
-  --main-color-font: #1E1E2D;
-  --second-color-text: #A2A2A7;
+  --main-color-font: #1e1e2d;
+  --second-color-text: #a2a2a7;
 }
 
 * {
@@ -9,3 +9,63 @@
   box-sizing: border-box;
   font-family: "Poppins";
 }
+
+.install-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: rgba(0, 61, 89, 0.46);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(9.4px);
+  -webkit-backdrop-filter: blur(9.4px);
+  border: 1px solid rgba(0, 61, 89, 0.3);  padding: 1rem;
+  width: 80%;
+  height: 70%;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: white;
+}
+
+.icon {
+  width: 60px;
+  height: 60px;
+}
+
+.icon img {
+  width: 100%;
+}
+
+.modal-content button {
+  margin: 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Outros estilos comentados */

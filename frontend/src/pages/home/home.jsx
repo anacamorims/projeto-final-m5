@@ -48,7 +48,7 @@ export default function Home() {
           <h2>Nossos Serviços</h2>
         </Box>
 
-        <div className={styles.container__cards__home}>
+        <div className={styles.container_cards_home}>
           <CardHome
             icon={AccountBalanceWalletOutlinedIcon}
             title={"Accounts"}
@@ -64,7 +64,7 @@ export default function Home() {
             title={"Transation"}
             description={"lorem ipsum seila seila ipsin"}
           />
-        </div> 
+    </div>
       </section>
     </>
   );
