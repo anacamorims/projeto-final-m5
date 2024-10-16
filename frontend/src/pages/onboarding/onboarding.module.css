@@ -1,0 +1,232 @@
+
+
+.onboardingAnimation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+  background-color: #232533;
+}
+
+.circleOne {
+  width: 250px;
+  height: 250px;
+  background-color: rgba(34, 0, 118, 0.334);
+  filter: drop-shadow(0 0 20px rgba(131, 25, 163, 0.7));
+  border-radius: 50%;
+  position: absolute;
+  animation: moveOne 8s infinite ease-in-out;
+}
+
+.circleTwo {
+  width: 400px;
+  height: 400px;
+  background-color: rgba(0, 40, 61, 0.383);
+  filter: drop-shadow(0 0 20px rgba(0, 36, 101, 0.7));
+  border-radius: 50%;
+  position: absolute;
+  animation: moveTwo 10s infinite ease-in-out;
+}
+
+.circleThree {
+  width: 250px;
+  height: 250px;
+  background-color: rgba(158, 0, 118, 0.254);
+  filter: drop-shadow(0 0 20px rgba(100, 5, 172, 0.837));
+  border-radius: 50%;
+  position: absolute;
+  animation: moveTree 10s infinite ease-in-out;
+}
+
+@keyframes moveOne {
+  0% {
+    top: 30%;
+    left: 20%;
+  }
+  20% {
+    top: 50%;
+    left: 40%;
+  }
+  40% {
+    top: 80%;
+    left: 70%;
+  }
+  50% {
+    top: 60%;
+    left: 40%;
+  }
+  60% {
+    top: 35%;
+    left: 90%;
+  }
+  80% {
+    top: 70%;
+    left: 70%;
+  }
+  100% {
+    top: 30%;
+    left: 20%;
+  }
+}
+
+@keyframes moveTwo {
+  0% {
+    bottom: 90%;
+    left: 50%;
+  }
+  20% {
+    bottom: 50%;
+    left: 40%;
+  }
+  40% {
+    bottom: 60%;
+    left: 20%;
+  }
+  50% {
+    bottom: 80%;
+    left: 30%;
+  }
+  60% {
+    bottom: 35%;
+    left: 10%;
+  }
+  80% {
+    bottom: 70%;
+    left: 60%;
+  }
+  100% {
+    bottom: 90%;
+    left: 90%;
+  }
+}
+
+@keyframes moveThree {
+  0% {
+    bottom: 90%;
+    right: 50%;
+  }
+  20% {
+    bottom: 50%;
+    right: 40%;
+  }
+  40% {
+    bottom: 60%;
+    right: 20%;
+  }
+  50% {
+    bottom: 80%;
+    right: 30%;
+  }
+  60% {
+    bottom: 35%;
+    right: 10%;
+  }
+  80% {
+    bottom: 70%;
+    right: 60%;
+  }
+  100% {
+    bottom: 90%;
+    right: 90%;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  color: white;
+  background: rgba(0, 0, 0, 0.34);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(13.2px);
+  -webkit-backdrop-filter: blur(13.2px);
+  padding: 20px;
+}
+
+.slide {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  margin: 1rem;
+  gap: 8px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  background-color: #bbb;
+  border-radius: 50%;
+  transition: width 0.3s ease;
+}
+
+.active {
+  background-color: #6495ed;
+  width: 15px;
+  border-radius: 5px;
+}
+
+.slideImg {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+}
+
+.slideText {
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+}
+
+
+.slide h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.slide p {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: #8f8f8f;
+}
+
+.button {
+  padding: 10px 20px;
+  width: 100%;
+  font-size: 1rem;
+  background-color: #6495ed;
+  color: #ffffff;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  position: end;
+}
+
+.button:hover {
+  background-color: #5774ab;
+}

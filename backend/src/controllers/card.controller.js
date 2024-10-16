@@ -59,23 +59,31 @@ const cardController = {
   async buscarCartoes(req, res) {
     try {
       const { id } = req.params;
-
-      const usuario = await User.findByPk(id, {
-        include: [{
-          model: Cartao,
-          as: 'cartoes',
-        }],
-      });
-
+  
+      // Verifica se o usuário existe
+      const usuario = await User.findByPk(id);
+  
       if (!usuario) {
         return res.status(404).json({ error: 'Usuário não encontrado' });
       }
-
-      res.status(200).json(usuario.cartoes);
+  
+      // Busca os cartões do usuário
+      const cartoes = await Cartao.findAll({
+        where: { usuarioId: usuario.id }, // Filtra os cartões pelo ID do usuário
+      });
+  
+      // Verifica se o usuário não possui cartões
+      if (cartoes.length === 0) {
+        return res.status(404).json({ error: 'Nenhum cartão encontrado para este usuário' });
+      }
+  
+      res.status(200).json(cartoes);
     } catch (error) {
+      console.error('Erro ao buscar cartões:', error); // Log do erro
       res.status(500).json({ error: 'Erro ao buscar cartões' });
     }
   }
+  
 };
 
 // Exportando as funções
