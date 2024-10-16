@@ -95,6 +95,9 @@ export default function SignIn() {
           onClick={handleSubmit}
         />
       </form>
+      <span className={style.CreateUserLink}>
+          Ainda não tem uma conta? <a href="/sign/up">Crie uma agora</a>
+        </span>
     </div>
   );
 }

@@ -132,6 +132,9 @@ export default function SignUp() {
           disabled={loading}
         />
       </form>
+      <span className={style.LoginUserDashboard}>
+        Já tem uma conta? <a href="/sign/in">Entrar</a>
+      </span>
     </div>
   );
 }
