@@ -10,7 +10,7 @@ export default defineConfig({
       manifest: {
         name: 'projeto final',
         short_name: 'PWA App',
-        start_url: '/dashboard', 
+        start_url: '/sign/in', 
         display: 'fullscreen', 
         background_color: '#ffffff',
         theme_color: '#ffffff',
