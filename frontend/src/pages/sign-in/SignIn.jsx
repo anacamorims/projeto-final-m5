@@ -43,16 +43,18 @@ export default function SignIn() {
         localStorage.setItem("authToken", data.token);
         localStorage.setItem("userId", data.userId);
 
-        // Limpa os dados após 1 hora (3600000 ms)
-        // Limpa os dados após 1 hora (3600000 ms)
         setTimeout(() => {
           localStorage.removeItem("authToken");
           localStorage.removeItem("userId");
           console.log("Token removido do localStorage após 1 hora.");
         }, 3600000);
 
-        console.log("Login bem-sucedido, redirecionando para o dashboard...");
-        navigate("/dashboard");
+        const hasSeenOnboarding = localStorage.getItem("hasSeenOnboarding");
+        if (!hasSeenOnboarding) {
+          navigate("/onboarding");
+        } else {
+          navigate("/dashboard");
+        }
       } else {
         setError(data.message || "Login failed, please try again.");
       }
