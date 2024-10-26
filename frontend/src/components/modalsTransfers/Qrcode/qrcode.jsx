@@ -1,46 +1,63 @@
 import React, { useState, useRef } from "react";
-import { QRCodeCanvas } from "qrcode.react"; // Biblioteca de geração de QR
-import modalStyles from "../modalGlobal.module.css"; // Estilo global do modal
+import { QRCodeCanvas } from "qrcode.react"; 
+import modalStyles from "../modalGlobal.module.css";
+import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
+
 
 export default function ModalQrCode({ onClose, userData }) {
-  const [amount, setAmount] = useState(""); // Estado para armazenar o valor do pagamento
-  const [qrCodeValue, setQrCodeValue] = useState(""); // Estado para armazenar o valor do QR Code
-  const qrCodeRef = useRef(); // Referência para o QR Code
+  const [amount, setAmount] = useState(""); 
+  const [qrCodeValue, setQrCodeValue] = useState(""); 
+  const qrCodeRef = useRef(); 
 
   const handleGenerateQRCode = () => {
     if (amount && userData) {
-      // Constrói um objeto com as informações necessárias
       const qrData = {
         accountNumber: userData.accountNumber,
         value: amount,
         description: "Pagamento realizado via QR Code"
       };
 
-      // Stringifica o objeto em JSON
       setQrCodeValue(JSON.stringify(qrData));
     }
   };
 
   const handleDownloadQRCode = () => {
-    // Verifica se qrCodeValue está definido
     if (qrCodeValue) {
-      const canvas = qrCodeRef.current; // Acessa o canvas do QR Code
-      const pngUrl = canvas.toDataURL("image/png"); // Converte o canvas em uma URL de imagem PNG
+      const canvas = qrCodeRef.current; 
+      const pngUrl = canvas.toDataURL("image/png"); 
 
-      // Cria um link temporário para download
       const downloadLink = document.createElement("a");
       downloadLink.href = pngUrl;
-      downloadLink.download = `qrcode_pagamento_${amount}.png`; // Nome do arquivo para download
-      document.body.appendChild(downloadLink); // Adiciona o link ao corpo do documento
-      downloadLink.click(); // Simula um clique no link para iniciar o download
-      document.body.removeChild(downloadLink); // Remove o link do DOM
+      downloadLink.download = `qrcode_pagamento_${amount}.png`; 
+      document.body.appendChild(downloadLink); 
+      downloadLink.click(); 
+      document.body.removeChild(downloadLink); 
+    }
+  };
+
+  const handleShareQRCode = async () => {
+    if (qrCodeValue) {
+      const canvas = qrCodeRef.current; 
+      const pngUrl = canvas.toDataURL("image/png"); 
+
+      try {
+        await navigator.share({
+          title: "QR Code para Pagamento",
+          text: "Clique para efetuar o pagamento!",
+          files: [new File([await (await fetch(pngUrl)).blob()], `qrcode_pagamento_${amount}.png`, { type: 'image/png' })]
+        });
+        alert("QR Code compartilhado com sucesso!");
+      } catch (err) {
+        console.error("Erro ao compartilhar:", err);
+        alert("Falha ao compartilhar o QR Code.");
+      }
     }
   };
 
   return (
     <div className={modalStyles.modal}>
       <button className={modalStyles.closeButton} onClick={onClose}>
-        Fechar
+        <ArrowBackIosNewRoundedIcon/>
       </button>
       <h1>Gerar QR Code</h1>
       <input
@@ -55,6 +72,7 @@ export default function ModalQrCode({ onClose, userData }) {
           <h2>QR Code:</h2>
           <QRCodeCanvas ref={qrCodeRef} value={qrCodeValue} />
           <button onClick={handleDownloadQRCode}>Baixar QR Code</button>
+          <button onClick={handleShareQRCode}>Compartilhar QR Code</button>
         </div>
       )}
     </div>

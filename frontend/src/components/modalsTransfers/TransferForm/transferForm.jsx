@@ -4,6 +4,7 @@ import formStyles from "./transferForm.module.css"; // Estilo específico do for
 import TagRoundedIcon from "@mui/icons-material/TagRounded";
 import AttachMoneyRoundedIcon from "@mui/icons-material/AttachMoneyRounded";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 
 export default function ModalTransfer({ onClose }) {
   const [userData, setUserData] = useState(null);
@@ -109,7 +110,7 @@ export default function ModalTransfer({ onClose }) {
   return (
     <div className={modalStyles.modal}>
       <button className={modalStyles.closeButton} onClick={onClose}>
-        Fechar
+        <ArrowBackIosNewRoundedIcon/>
       </button>
       <h1>Transferir</h1>
       <form className={formStyles.formTransfer} onSubmit={handleSubmit}>

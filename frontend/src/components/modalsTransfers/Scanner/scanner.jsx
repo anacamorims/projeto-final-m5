@@ -3,6 +3,8 @@ import QrScanner from "react-qr-scanner";
 import jsQR from "jsqr"; 
 import modalStyles from "../modalGlobal.module.css"; 
 import scannerStyles from "./scanner.module.css"
+import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
+
 
 export default function ModalScanner({ onClose, onQRCodeRead = () => {}, userData }) {
   const [scanResult, setScanResult] = useState(""); 
@@ -102,7 +104,7 @@ export default function ModalScanner({ onClose, onQRCodeRead = () => {}, userDat
   return (
     <div className={modalStyles.modal}>
       <button className={modalStyles.closeButton} onClick={onClose}>
-        Fechar
+        <ArrowBackIosNewRoundedIcon/>
       </button>
       <h1>Scanner</h1>
       <div>

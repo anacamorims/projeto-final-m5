@@ -3,10 +3,10 @@
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(13.2px);
   -webkit-backdrop-filter: blur(13.2px);
-  height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: auto;
+  height: 100%;
 }
 
 .navbar {
@@ -54,8 +54,6 @@
   margin-bottom: 20px;
   text-align: start;
 }
-
-
 
 .transferMenu {
   color: #ffffff;
