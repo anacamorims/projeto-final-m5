@@ -12,10 +12,19 @@ import QrScanner from "react-qr-scanner"; // Biblioteca de leitura de QR
 import SwapHorizRoundedIcon from "@mui/icons-material/SwapHorizRounded";
 import QrCodeRoundedIcon from "@mui/icons-material/QrCodeRounded";
 import QrCodeScannerRoundedIcon from "@mui/icons-material/QrCodeScannerRounded";
-import PaymentsRoundedIcon from '@mui/icons-material/PaymentsRounded';
+import PaymentsRoundedIcon from "@mui/icons-material/PaymentsRounded";
+import CurrencyExchangeRoundedIcon from "@mui/icons-material/CurrencyExchangeRounded";
+
+//components Modal
+import ModalTransfer from "../../../components/modalsTransfers/TransferForm/transferForm";
+import ModalQrCode from "../../../components/modalsTransfers/Qrcode/qrcode";
+import ModalScanner from "../../../components/modalsTransfers/Scanner/scanner";
+import ModalLoan from "../../../components/modalsTransfers/Loan/loan";
 
 export default function Transfer() {
   const [userData, setUserData] = useState(null);
+  const [transactions, setTransactions] = useState([]);
+  const [openModal, setOpenModal] = useState(null); // Armazena a modal ativa
   const [formData, setFormData] = useState({
     receiverId: "",
     amount: "",
@@ -63,7 +72,27 @@ export default function Transfer() {
       }
     };
 
+    const fetchTransactions = async () => {
+      try {
+        const response = await fetch(
+          `https://projeto-final-m5-api.onrender.com/history/${userId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+        setTransactions(data);
+      } catch (error) {
+        console.error("Erro ao buscar transações:", error);
+      }
+    };
+
     fetchUserData();
+    fetchTransactions();
   }, [userId]);
 
   // Função para gerar o QR Code com o valor solicitado
@@ -105,6 +134,9 @@ export default function Transfer() {
     // Valida e envia a transferência (sem mudanças nessa função)
   };
 
+  const handleOpenModal = (modalName) => setOpenModal(modalName);
+  const handleCloseModal = () => setOpenModal(null);
+
   if (!userData) return <Loader />; // Exibe carregamento enquanto busca os dados
 
   return (
@@ -128,42 +160,105 @@ export default function Transfer() {
               </h2>
             </div>
             <ul className={styles.menuButtons}>
-              <li className={styles.transferOption}>
+              <li
+                className={styles.transferOption}
+                onClick={() => handleOpenModal("transfer")}
+              >
                 <div className={styles.iconOption}>
                   <SwapHorizRoundedIcon />
                 </div>
                 <span>Transfer</span>
               </li>
-              <li className={styles.transferOption}>
+
+              <li
+                className={styles.transferOption}
+                onClick={() => handleOpenModal("qrcode")}
+              >
                 <div className={styles.iconOption}>
                   <QrCodeRoundedIcon />
                 </div>
                 <span>QrCode</span>
               </li>
-              <li className={styles.transferOption}>
+
+              <li
+                className={styles.transferOption}
+                onClick={() => handleOpenModal("scanner")}
+              >
                 <div className={styles.iconOption}>
                   <QrCodeScannerRoundedIcon />
                 </div>
                 <span>Scanner</span>
               </li>
-              <li className={styles.transferOption}>
+
+              <li
+                className={styles.transferOption}
+                onClick={() => handleOpenModal("loan")}
+              >
                 <div className={styles.iconOption}>
-                  <PaymentsRoundedIcon/>
+                  <PaymentsRoundedIcon />
                 </div>
-                <span>empréstimo</span>
+                <span>Empréstimo</span>
               </li>
             </ul>
+            {openModal === "transfer" && (
+              <ModalTransfer onClose={handleCloseModal} />
+            )}
+            {openModal === "qrcode" && (
+              <ModalQrCode onClose={handleCloseModal} />
+            )}
+            {openModal === "scanner" && (
+              <ModalScanner onClose={handleCloseModal} />
+            )}
+            {openModal === "loan" && <ModalLoan onClose={handleCloseModal} />}
           </div>
 
           <div className={styles.transferRecent}>
             <div className={styles.recentTransfer}>
               <h6>Transferências recentes</h6>
               <ul className={styles.transferList}>
-                {/* Exibe as transferências recentes */}
-                {/*... */}
+                {transactions.map((transaction) => {
+                  const isReceived = transaction.amount > 0;
+                  return (
+                    <li
+                      key={transaction.transactionId}
+                      className={styles.transactionItem}
+                    >
+                      <div
+                        className={styles.transactionIcon}
+                        style={{ color: isReceived ? "#5dae0d" : "#ca0e04" }}
+                      >
+                        <CurrencyExchangeRoundedIcon />
+                      </div>
+                      <div className={styles.transactionContent}>
+                        <div className={styles.transactionTitle}>
+                          {isReceived ? "Recebido" : "Enviado"}
+                        </div>
+                        <div className={styles.transactionDate}>
+                          <small>
+                            {new Date(
+                              transaction.createdAt
+                            ).toLocaleDateString()}{" "}
+                            -{" "}
+                            {new Date(
+                              transaction.createdAt
+                            ).toLocaleTimeString()}
+                          </small>
+                        </div>
+                      </div>
+                      <div
+                        className={styles.transactionBalance}
+                        style={{
+                          fontWeight: isReceived ? "bold" : "normal",
+                          color: isReceived ? "white" : "gray",
+                        }}
+                      >
+                        <span>R$ {transaction.amount.toFixed(2)}</span>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
-              </div>
-  
+            </div>
           </div>
 
           {/* <form className={styles.formTransfer} onSubmit={handleSubmit}> 
