@@ -25,14 +25,6 @@ export default function Transfer() {
   const [userData, setUserData] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [openModal, setOpenModal] = useState(null); // Armazena a modal ativa
-  const [formData, setFormData] = useState({
-    receiverId: "",
-    amount: "",
-    description: "",
-    requestAmount: "", // Novo campo para valor solicitado
-  });
-  const [qrCodeValue, setQrCodeValue] = useState(""); // Valor para o QR Code
-  const [isQrScannerOpen, setQrScannerOpen] = useState(false); // Controle de leitura de QR
 
   const userId = localStorage.getItem("userId");
 
@@ -94,45 +86,6 @@ export default function Transfer() {
     fetchUserData();
     fetchTransactions();
   }, [userId]);
-
-  // Função para gerar o QR Code com o valor solicitado
-  const generateQrCode = () => {
-    if (!formData.requestAmount) {
-      alert("Por favor, defina o valor solicitado para gerar o QR Code.");
-      return;
-    }
-
-    const qrData = JSON.stringify({
-      receiverId: formData.receiverId,
-      amount: formData.requestAmount, // Usando o valor solicitado no QR
-      description: formData.description,
-    });
-
-    setQrCodeValue(qrData);
-  };
-
-  // Função para lidar com o scanner de QR Code
-  const handleScan = (data) => {
-    if (data) {
-      const parsedData = JSON.parse(data.text); // Assumindo que o QR Code contém JSON
-      setFormData({
-        receiverId: parsedData.receiverId || "",
-        amount: parsedData.amount || "",
-        description: parsedData.description || "",
-      });
-      setQrScannerOpen(false); // Fecha o scanner
-    }
-  };
-
-  const handleError = (err) => {
-    console.error("Erro no scanner:", err);
-    alert("Erro ao ler QR Code.");
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Valida e envia a transferência (sem mudanças nessa função)
-  };
 
   const handleOpenModal = (modalName) => setOpenModal(modalName);
   const handleCloseModal = () => setOpenModal(null);
@@ -204,10 +157,10 @@ export default function Transfer() {
               <ModalTransfer onClose={handleCloseModal} />
             )}
             {openModal === "qrcode" && (
-              <ModalQrCode onClose={handleCloseModal} />
+              <ModalQrCode onClose={handleCloseModal} userData={userData}  />
             )}
             {openModal === "scanner" && (
-              <ModalScanner onClose={handleCloseModal} />
+              <ModalScanner onClose={handleCloseModal} userData={userData}  />
             )}
             {openModal === "loan" && <ModalLoan onClose={handleCloseModal} />}
           </div>
@@ -260,89 +213,6 @@ export default function Transfer() {
               </ul>
             </div>
           </div>
-
-          {/* <form className={styles.formTransfer} onSubmit={handleSubmit}> 
-            <div className={styles.input_field}>
-              <input
-                required
-                name="receiverId"
-                type="number"
-                value={formData.receiverId}
-                onChange={(e) =>
-                  setFormData({ ...formData, receiverId: e.target.value })
-                }
-              />
-              <label>Número da conta</label>
-              <span className={styles.icon}>
-                <TagRoundedIcon />
-              </span>
-            </div>
-            <div className={styles.input_field}>
-              <input
-                required
-                name="amount"
-                type="number"
-                value={formData.amount}
-                onChange={(e) =>
-                  setFormData({ ...formData, amount: e.target.value })
-                }
-              />
-              <label>Valor enviado</label>
-              <span className={styles.icon}>
-                <AttachMoneyRoundedIcon />
-              </span>
-            </div>
-
-            <div className={styles.input_field}>
-              <input
-                required
-                name="requestAmount"
-                type="number"
-                value={formData.requestAmount}
-                onChange={(e) =>
-                  setFormData({ ...formData, requestAmount: e.target.value })
-                }
-              />
-              <label>Valor solicitado (QR Code)</label>
-            </div>
-
-            <div className={styles.textarea_field}>
-              <textarea
-                required
-                name="description"
-                value={formData.description}
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
-              ></textarea>
-              <label>Descrição</label>
-            </div>
-
-            
-
-            <div className={styles.transferButton}>
-              <button type="submit">Transferir</button>
-            </div>
-          </form> */}
-
-          {/* <div className={styles.qrSection}>
-            <button onClick={generateQrCode}>Gerar QR Code</button>
-            {qrCodeValue && (
-              <div className={styles.qrCode}>
-                <QRCodeCanvas value={qrCodeValue} size={256} />
-              </div>
-            )}
-
-            <button onClick={() => setQrScannerOpen(true)}>Ler QR Code</button>
-            {isQrScannerOpen && (
-              <QrScanner
-                delay={300}
-                onError={handleError}
-                onScan={handleScan}
-                style={{ width: "100%" }}
-              />
-            )}
-          </div> */}
         </div>
       </section>
     </>
