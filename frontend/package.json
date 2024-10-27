@@ -27,6 +27,7 @@
     "react-qr-scanner": "^1.0.0-alpha.11",
     "react-router-dom": "^6.26.2",
     "react-toastify": "^10.0.6",
+    "uuid": "^11.0.0",
     "yup": "^1.4.0"
   },
   "devDependencies": {

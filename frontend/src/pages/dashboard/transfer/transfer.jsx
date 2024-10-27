@@ -5,8 +5,6 @@ import TagRoundedIcon from "@mui/icons-material/TagRounded";
 import AttachMoneyRoundedIcon from "@mui/icons-material/AttachMoneyRounded";
 import Loader from "./../../../components/loader/loader";
 import Animation from "./../../../components/backgroundAnim/animation";
-import { QRCodeCanvas } from "qrcode.react"; // Biblioteca de geração de QR
-import QrScanner from "react-qr-scanner"; // Biblioteca de leitura de QR
 
 //icones
 import SwapHorizRoundedIcon from "@mui/icons-material/SwapHorizRounded";
@@ -24,7 +22,7 @@ import ModalLoan from "../../../components/modalsTransfers/Loan/loan";
 export default function Transfer() {
   const [userData, setUserData] = useState(null);
   const [transactions, setTransactions] = useState([]);
-  const [openModal, setOpenModal] = useState(null); // Armazena a modal ativa
+  const [openModal, setOpenModal] = useState(null);
 
   const userId = localStorage.getItem("userId");
 
@@ -90,7 +88,7 @@ export default function Transfer() {
   const handleOpenModal = (modalName) => setOpenModal(modalName);
   const handleCloseModal = () => setOpenModal(null);
 
-  if (!userData) return <Loader />; // Exibe carregamento enquanto busca os dados
+  if (!userData) return <Loader />;
 
   return (
     <>
@@ -153,16 +151,6 @@ export default function Transfer() {
                 <span>Empréstimo</span>
               </li>
             </ul>
-            {openModal === "transfer" && (
-              <ModalTransfer onClose={handleCloseModal} />
-            )}
-            {openModal === "qrcode" && (
-              <ModalQrCode onClose={handleCloseModal} userData={userData}  />
-            )}
-            {openModal === "scanner" && (
-              <ModalScanner onClose={handleCloseModal} userData={userData}  />
-            )}
-            {openModal === "loan" && <ModalLoan onClose={handleCloseModal} />}
           </div>
 
           <div className={styles.transferRecent}>
@@ -214,7 +202,16 @@ export default function Transfer() {
             </div>
           </div>
         </div>
+        
       </section>
+      {openModal === "transfer" && <ModalTransfer onClose={handleCloseModal} />}
+      {openModal === "qrcode" && (
+        <ModalQrCode onClose={handleCloseModal} userData={userData} />
+      )}
+      {openModal === "scanner" && (
+        <ModalScanner onClose={handleCloseModal} userData={userData} />
+      )}
+      {openModal === "loan" && <ModalLoan onClose={handleCloseModal} />}
     </>
   );
 }

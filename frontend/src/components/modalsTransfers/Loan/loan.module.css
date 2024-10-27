@@ -1,0 +1,46 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #333;
+  padding: 20px;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #449f9b;
+}
+
+.message {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #c4c4c4;
+}
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.closeButton:hover {
+  transform: scale(1.1);
+}
+
+.modal {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+  padding: 20px; 
+  max-width: 500px;
+  margin: auto; 
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
