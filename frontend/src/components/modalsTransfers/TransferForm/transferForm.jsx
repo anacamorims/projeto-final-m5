@@ -45,6 +45,23 @@ export default function ModalTransfer({ onClose }) {
     }
   }, [userId]);
 
+  const formatCurrency = (value) => {
+    const numericValue = value.replace(/\D/g, ""); // Remove tudo que não é dígito
+    return (numericValue / 100).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+  };
+
+  const handleAmountChange = (e) => {
+    const inputValue = e.target.value;
+    const numericValue = inputValue.replace(/\D/g, ""); // Remove não dígitos
+    setFormData((prev) => ({
+      ...prev,
+      amount: numericValue,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -56,11 +73,12 @@ export default function ModalTransfer({ onClose }) {
     }
 
     // Validação dos dados do formulário
+    const amountInFloat = parseFloat(formData.amount) / 100;
     if (
       !formData.receiverId ||
       !formData.amount ||
-      isNaN(formData.amount) ||
-      parseFloat(formData.amount) <= 0
+      isNaN(amountInFloat) ||
+      amountInFloat <= 0
     ) {
       alert("Por favor, preencha todos os campos corretamente.");
       return;
@@ -70,7 +88,7 @@ export default function ModalTransfer({ onClose }) {
       const payload = {
         senderAccountNumber: String(userData.accountNumber), // Alterado para senderAccountNumber
         receiverAccountNumber: String(formData.receiverId), // Alterado para receiverAccountNumber
-        amount: parseFloat(formData.amount),
+        amount: amountInFloat,
         type: "transfer",
         description: formData.description,
       };
@@ -110,7 +128,7 @@ export default function ModalTransfer({ onClose }) {
   return (
     <div className={modalStyles.modal}>
       <button className={modalStyles.closeButton} onClick={onClose}>
-        <ArrowBackIosNewRoundedIcon/>
+        <ArrowBackIosNewRoundedIcon />
       </button>
       <h1>Transferir</h1>
       <form className={formStyles.formTransfer} onSubmit={handleSubmit}>
@@ -134,11 +152,9 @@ export default function ModalTransfer({ onClose }) {
           <input
             required
             name="amount"
-            type="number"
-            value={formData.amount}
-            onChange={(e) =>
-              setFormData({ ...formData, amount: e.target.value })
-            }
+            type="text" // Mudado para "text" para aplicar a máscara
+            value={formatCurrency(formData.amount)} // Formata o valor ao exibir
+            onChange={handleAmountChange}
           />
           <label>Valor enviado</label>
           <span className={formStyles.icon}>

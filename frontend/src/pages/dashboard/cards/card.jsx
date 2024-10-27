@@ -56,7 +56,7 @@ export default function Cards() {
       numero: "", // Pode ser gerado automaticamente pela API
       vencimento: "", // Pode ser gerado automaticamente pela API
       bandeira: "MasterCard",
-      codigo_seg: "", 
+      codigo_seg: "",
       senha: password, // Captura a senha do input
       tipo: "Debito", // Sempre define "Debito" como padrão
       limite: 5000, // Ou outro valor desejado
@@ -98,19 +98,12 @@ export default function Cards() {
 
       <section className={styles.container}>
         <nav className={styles.navbar}>
-          <div className={styles.avatarUser}>
-            <AccountCircleRoundedIcon />
-          </div>
-          <div className={styles.welcomeText}>
-            <h4>{userData.name}</h4>
+          <div className={styles.titleTransfer}>
+            <h2>Cartões</h2>
           </div>
         </nav>
 
         <div className={styles.transferContent}>
-          <div className={styles.titleTransfer}>
-            <h2>Cartões</h2>
-          </div>
-
           <div className={styles.cardContent}>
             <Card />
           </div>
