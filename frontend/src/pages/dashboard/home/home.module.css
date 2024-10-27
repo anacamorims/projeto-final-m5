@@ -3,9 +3,9 @@
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(13.2px);
     -webkit-backdrop-filter: blur(13.2px);
-    height: 100vh; /* Garante que a altura do contêiner seja 100% da tela */
     display: flex;
     overflow-y: auto;
+    height: 100%;
     flex-direction: column;
   }
   

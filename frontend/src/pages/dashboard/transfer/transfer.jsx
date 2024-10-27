@@ -4,23 +4,68 @@ import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import TagRoundedIcon from "@mui/icons-material/TagRounded";
 import AttachMoneyRoundedIcon from "@mui/icons-material/AttachMoneyRounded";
 import Loader from "./../../../components/loader/loader";
-import Animation from './../../../components/backgroundAnim/animation';
+import Animation from "./../../../components/backgroundAnim/animation";
+
+//icones
+import SwapHorizRoundedIcon from "@mui/icons-material/SwapHorizRounded";
+import QrCodeRoundedIcon from "@mui/icons-material/QrCodeRounded";
+import QrCodeScannerRoundedIcon from "@mui/icons-material/QrCodeScannerRounded";
+import PaymentsRoundedIcon from "@mui/icons-material/PaymentsRounded";
+import CurrencyExchangeRoundedIcon from "@mui/icons-material/CurrencyExchangeRounded";
+
+//components Modal
+import ModalTransfer from "../../../components/modalsTransfers/TransferForm/transferForm";
+import ModalQrCode from "../../../components/modalsTransfers/Qrcode/qrcode";
+import ModalScanner from "../../../components/modalsTransfers/Scanner/scanner";
+import ModalLoan from "../../../components/modalsTransfers/Loan/loan";
 
 export default function Transfer() {
   const [userData, setUserData] = useState(null);
-  const [formData, setFormData] = useState({
-    receiverId: "",
-    amount: "",
-    description: "",
-  });
+  const [transactions, setTransactions] = useState([]);
+  const [openModal, setOpenModal] = useState(null);
+
   const userId = localStorage.getItem("userId");
 
-  // Carrega os dados do usuário ao montar o componente
   useEffect(() => {
+    if (!userId) {
+      console.error("User ID não encontrado");
+      alert("Você precisa estar logado para acessar essa página.");
+      return;
+    }
+
     const fetchUserData = async () => {
       try {
         const response = await fetch(
           `https://projeto-final-m5-api.onrender.com/api/users/${userId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("Erro na resposta:", errorData);
+          alert(
+            `Erro: ${errorData.message || "Não foi possível buscar os dados."}`
+          );
+          return;
+        }
+
+        const data = await response.json();
+        setUserData(data);
+      } catch (error) {
+        console.error("Erro ao buscar dados do usuário:", error);
+      }
+    };
+
+    const fetchTransactions = async () => {
+      try {
+        const response = await fetch(
+          `https://projeto-final-m5-api.onrender.com/history/${userId}`,
           {
             method: "GET",
             headers: {
@@ -29,83 +74,21 @@ export default function Transfer() {
           }
         );
 
-        if (!response.ok) {
-          throw new Error("Erro ao buscar dados do usuário");
-        }
-
         const data = await response.json();
-        setUserData(data); // Armazena os dados do usuário no estado
+        setTransactions(data);
       } catch (error) {
-        console.error("Erro:", error);
+        console.error("Erro ao buscar transações:", error);
       }
     };
 
-    if (userId) {
-      fetchUserData();
-    }
+    fetchUserData();
+    fetchTransactions();
   }, [userId]);
 
-  // Lida com a submissão do formulário
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleOpenModal = (modalName) => setOpenModal(modalName);
+  const handleCloseModal = () => setOpenModal(null);
 
-    // Verifica se userData e formData são válidos
-    if (!userData || !userData.accountNumber) {
-      console.error("Dados do usuário não carregados corretamente:", userData);
-      alert("Erro: dados do usuário não carregados.");
-      return;
-    }
-
-    // Validação dos dados do formulário
-    if (
-      !formData.receiverId ||
-      !formData.amount ||
-      isNaN(formData.amount) ||
-      parseFloat(formData.amount) <= 0
-    ) {
-      alert("Por favor, preencha todos os campos corretamente.");
-      return;
-    }
-
-    try {
-      const payload = {
-        senderAccountNumber: String(userData.accountNumber), // Alterado para senderAccountNumber
-        receiverAccountNumber: String(formData.receiverId), // Alterado para receiverAccountNumber
-        amount: parseFloat(formData.amount),
-        type: "transfer",
-        description: formData.description,
-      };
-
-      console.log("Payload enviado:", payload); // Verifica o payload
-
-      const response = await fetch(
-        "https://projeto-final-m5-api.onrender.com/api/transactions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json(); // Captura o erro retornado
-        console.error("Erro da API:", errorData);
-        alert(`Erro na transferência: ${errorData.message}`);
-        return;
-      }
-
-      alert("Transferência realizada com sucesso!");
-      setFormData({ receiverId: "", amount: "", description: "" });
-    } catch (error) {
-      console.error("Erro ao realizar transferência:", error);
-      alert("Falha na transferência.");
-    }
-  };
-
-  if (!userData) return <Loader />; // Exibe mensagem de carregamento enquanto busca os dados
+  if (!userData) return <Loader />;
 
   return (
     <>
@@ -113,76 +96,122 @@ export default function Transfer() {
 
       <section className={styles.container}>
         <nav className={styles.navbar}>
-          <div className={styles.avatarUser}>
-            <AccountCircleRoundedIcon />
-          </div>
-          <div className={styles.welcomeText}>
-            <h4>{userData ? userData.name : "Carregando..."}</h4>
-          </div> 
-        </nav>
-
-        <div className={styles.transferContent}>
           <div className={styles.titleTransfer}>
             <h2>Transferir</h2>
           </div>
+        </nav>
 
-          <form className={styles.formTransfer} onSubmit={handleSubmit}>
-            <div className={styles.input_field}>
-              <input
-                required 
-                name="receiverId"
-                type="number"
-                value={formData.receiverId}
-                onChange={(e) =>
-                  setFormData({ ...formData, receiverId: e.target.value })
-                }
-              />
-              <label>Número da conta</label>
-              <span className={styles.icon}>
-                <TagRoundedIcon />
-              </span>
-            </div>
-            <div className={styles.input_field}>
-              <input
-                required
-                name="amount"
-                type="number"
-                value={formData.amount}
-                onChange={(e) =>
-                  setFormData({ ...formData, amount: e.target.value })
-                }
-              />
-              <label>Valor enviado</label>
-              <span className={styles.icon}>
-                <AttachMoneyRoundedIcon />
-              </span>
-            </div>
-            <div className={styles.textarea_field}>
-              <textarea
-                required
-                name="description"
-                value={formData.description}
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
-              ></textarea>
-              <label>Descrição</label>
-            </div>
-
+        <div className={styles.transferContent}>
+          <div className={styles.transferMenu}>
             <div className={styles.amount}>
-              <h4>Valor disponível</h4>
+              <h6>Valor disponível</h6>
               <h2>
                 <span>R$</span>{" "}
                 {userData ? userData.balance.toFixed(2) : "Carregando..."}
               </h2>
             </div>
+            <ul className={styles.menuButtons}>
+              <li
+                className={styles.transferOption}
+                onClick={() => handleOpenModal("transfer")}
+              >
+                <div className={styles.iconOption}>
+                  <SwapHorizRoundedIcon />
+                </div>
+                <span>Transfer</span>
+              </li>
 
-            <div className={styles.transferButton}>
-              <button type="submit">Transferir</button>
+              <li
+                className={styles.transferOption}
+                onClick={() => handleOpenModal("qrcode")}
+              >
+                <div className={styles.iconOption}>
+                  <QrCodeRoundedIcon />
+                </div>
+                <span>QrCode</span>
+              </li>
+
+              <li
+                className={styles.transferOption}
+                onClick={() => handleOpenModal("scanner")}
+              >
+                <div className={styles.iconOption}>
+                  <QrCodeScannerRoundedIcon />
+                </div>
+                <span>Scanner</span>
+              </li>
+
+              <li
+                className={styles.transferOption}
+                onClick={() => handleOpenModal("loan")}
+              >
+                <div className={styles.iconOption}>
+                  <PaymentsRoundedIcon />
+                </div>
+                <span>Empréstimo</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className={styles.transferRecent}>
+            <div className={styles.recentTransfer}>
+              <h6>Transferências recentes</h6>
+              <ul className={styles.transferList}>
+                {transactions.map((transaction) => {
+                  const isReceived = transaction.amount > 0;
+                  return (
+                    <li
+                      key={transaction.transactionId}
+                      className={styles.transactionItem}
+                    >
+                      <div
+                        className={styles.transactionIcon}
+                        style={{ color: isReceived ? "#5dae0d" : "#ca0e04" }}
+                      >
+                        <CurrencyExchangeRoundedIcon />
+                      </div>
+                      <div className={styles.transactionContent}>
+                        <div className={styles.transactionTitle}>
+                          {isReceived ? "Recebido" : "Enviado"}
+                        </div>
+                        <div className={styles.transactionDate}>
+                          <small>
+                            {new Date(
+                              transaction.createdAt
+                            ).toLocaleDateString()}{" "}
+                            -{" "}
+                            {new Date(
+                              transaction.createdAt
+                            ).toLocaleTimeString()}
+                          </small>
+                        </div>
+                      </div>
+                      <div
+                        className={styles.transactionBalance}
+                        style={{
+                          fontWeight: isReceived ? "bold" : "normal",
+                          color: isReceived ? "white" : "gray",
+                        }}
+                      >
+                        <span>R$ {transaction.amount.toFixed(2)}</span>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
-          </form>
+          </div>
         </div>
+        
       </section>
+      {openModal === "transfer" && <ModalTransfer onClose={handleCloseModal} />}
+      {openModal === "qrcode" && (
+        <ModalQrCode onClose={handleCloseModal} userData={userData} />
+      )}
+      {openModal === "scanner" && (
+        <ModalScanner onClose={handleCloseModal} userData={userData} />
+      )}
+      {openModal === "loan" && <ModalLoan onClose={handleCloseModal} />}
     </>
   );
 }

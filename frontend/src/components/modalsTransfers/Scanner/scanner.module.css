@@ -1,0 +1,220 @@
+/* Vídeo do scanner em tela cheia */
+.videoBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* Overlay escuro ao redor com "buraco" quadrado no centro */
+.videoOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.36); /* Fundo escurecido */
+  z-index: 2;
+  pointer-events: none; /* Não interfere na interação com o vídeo */
+}
+
+/* Quadrado transparente no centro com borda destacada */
+.videoOverlay::before {
+  content: "";
+  position: absolute;
+  top: 50%; /* Ajusta a posição vertical do quadrado */
+  left: 50%; /* Ajusta a posição horizontal do quadrado */
+  width: 300px; /* Largura do quadrado */
+  height: 300px; /* Altura do quadrado */
+  background-color: transparent; /* Transparente para revelar o vídeo */
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.8); /* Borda escura ao redor */
+  border: 2px dashed white; /* Borda visível ao redor do quadrado */
+  box-sizing: border-box; /* Inclui bordas no tamanho total */
+  z-index: 3;
+  pointer-events: none; /* Garante que não interfira com o scanner */
+  transform: translate(-50%, -50%); /* Centraliza o quadrado */
+}
+
+
+/* Conteúdo sobreposto ao vídeo */
+.content {
+  position: relative;
+  z-index: 4;
+  text-align: center;
+  color: white;
+  padding: 10px;
+}
+
+/* Estilo do input de arquivo */
+.fileInput {
+  display: none; /* Esconde o input padrão */
+}
+
+/* Estilo do botão personalizado */
+.fileInputLabel {
+  display: inline-block; /* Exibe como um botão inline */
+  padding: 10px 20px; /* Espaçamento interno */
+  background-color: #4caf50; /* Cor de fundo */
+  color: white; /* Cor do texto */
+  border-radius: 5px; /* Cantos arredondados */
+  cursor: pointer; /* Muda o cursor para indicar que é clicável */
+  transition: background-color 0.3s; /* Transição suave ao passar o mouse */
+}
+
+/* Efeito de hover para o botão */
+.fileInputLabel:hover {
+  background-color: #45a049; /* Cor de fundo mais escura no hover */
+}
+
+/* Estilo para o texto do botão */
+.fileInputText {
+  margin-left: 10px; /* Espaçamento à esquerda do ícone/texto */
+  font-size: 16px; /* Tamanho da fonte */
+}
+
+
+.paymentOverlay {
+  position: relative;
+  width: 90%;
+  height: 450px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  font-family: 'Courier New', Courier, monospace; /* Fonte de recibo */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: black;
+  align-items: center;
+  justify-content: flex-start;
+  border: 1px solid #ddd; /* Borda leve para parecer papel */
+}
+
+.paymentOverlay::before {
+  content: "RECIBO DE PAGAMENTO";
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.paymentInfo {
+  width: 100%;
+  background-color: #f9f9f9; /* Fundo claro para destacar a informação */
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); /* Efeito de profundidade */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.paymentInfo p {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed #ccc; /* Linha pontilhada entre seções */
+  padding-bottom: 5px;
+}
+
+.paymentInfo p:last-child {
+  border-bottom: none;
+}
+
+.paymentButtons {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  margin-top: auto; /* Mantém os botões no fim */
+}
+
+.paymentButton {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Efeito de clique */
+  transition: background-color 0.2s ease;
+}
+
+.paymentButton:hover {
+  background-color: #45a049;
+}
+
+.cancelButton {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+.cancelButton:hover {
+  background-color: #d32f2f;
+}
+
+
+/* Radio buttons para escolha da câmera ou arquivo */
+.radioButtons {
+  display: flex;
+  padding: 1.5rem;
+  width: 100%;
+  justify-content: center;
+  gap: 15px;
+  color: white;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  align-items: center;
+}
+
+.radioButtons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 30px; /* Espaçamento entre os botões */
+  color: white;
+}
+
+/* Estilo do rótulo do botão de rádio */
+.radioLabel {
+  display: flex;
+  align-items: center; /* Alinha o ícone e o texto verticalmente */
+  cursor: pointer; /* Muda o cursor para indicar que é clicável */
+  transition: transform 0.2s; /* Animação suave ao passar o mouse */
+}
+
+/* Estilo do botão de rádio */
+.radioInput {
+  display: none; /* Esconde o botão de rádio padrão */
+}
+
+/* Estilo do ícone */
+.icon {
+  margin-right: 8px; /* Espaço entre o ícone e o texto */
+  font-size: 24px; /* Tamanho do ícone */
+  transition: transform 0.2s; /* Animação suave ao passar o mouse */
+}
+
+/* Efeito de destaque ao passar o mouse */
+.radioLabel:hover {
+  transform: scale(1.05); /* Aumenta levemente o tamanho do rótulo */
+}
+
+/* Efeito quando o botão de rádio está selecionado */
+.radioInput:checked + .icon {
+  transform: scale(1.2);
+  color: #6495ed; /* Aumenta o tamanho do ícone quando selecionado */
+}

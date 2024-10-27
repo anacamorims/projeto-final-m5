@@ -1,17 +1,31 @@
+/* bottonNav.module.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; 
+}
+
+.pageContent {
+  flex: 1;
+  overflow: auto;
+}
+
 .bottomNavigation {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 86px;
-    background-color: #27273A;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 100;
-    border-radius: 20px 20px 0 0;
-  }
+  position: relative; /* Muda para 'relative' */
+  bottom: 0; /* Adiciona essa propriedade */
+  left: 0;
+  right: 0;
+  height: 86px;
+  background-color: #27273A;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+  border-radius: 20px 20px 0 0;
+  margin-top: auto; /* Adiciona essa propriedade para empurrar para baixo */
+}
+
   
   .navList {
     display: flex;
