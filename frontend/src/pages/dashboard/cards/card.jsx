@@ -1,59 +1,116 @@
 import { useEffect, useState } from "react";
-import styles from "./card.module.css"; 
+import styles from "./card.module.css"; // Mantendo os estilos
+import AttachMoneyRoundedIcon from "@mui/icons-material/AttachMoneyRounded";
 import Animation from "../../../components/backgroundAnim/animation";
 import Card from "../../../components/card-bank/card";
 import Loader from "../../../components/loader/loader";
-import AttachMoneyRoundedIcon from '@mui/icons-material/AttachMoneyRounded'; // Importação do ícone
 
-const Cards = () => {
-  const [cardData, setCardData] = useState(null);
+export default function Cards() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [hasCard, setHasCard] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const userId = localStorage.getItem("userId"); // Certifique-se de que o ID do usuário está armazenado
+  const [userData, setUserData] = useState(null);
+  const [cardData, setCardData] = useState(null);
+  const userId = localStorage.getItem("userId");
 
   const fetchCardData = async () => {
     try {
       const response = await fetch(
-        `https://projeto-final-m5-api.onrender.com/${userId}/card`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        }
+        `https://projeto-final-m5-api.onrender.com/${userId}/card`
       );
 
       if (!response.ok) {
+        // Se o cartão não for encontrado, defina cardData como null
+        if (response.status === 404) {
+          setCardData(null);
+          return;
+        }
         throw new Error("Erro ao buscar dados do cartão");
       }
 
       const data = await response.json();
 
+      // Verifique se os dados retornados são um cartão
       if (Array.isArray(data) && data.length > 0) {
-        setCardData(data[0]); // Usar o primeiro cartão, se houver mais de um
-        setHasCard(true);
+        setCardData(data[0]); // Se houver mais de um cartão, usa o primeiro
       } else {
-        setCardData(null); // Garantir que cardData seja nulo se não houver cartões
-        setHasCard(false);
+        setCardData(data); // Caso os dados venham como objeto
       }
     } catch (error) {
       console.error("Erro ao buscar dados do cartão:", error);
+      setCardData(null); // Defina cardData como null em caso de erro
     }
   };
 
   useEffect(() => {
-    fetchCardData(); // Chama a função ao montar o componente
-  }, []);
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(
+          `https://projeto-final-m5-api.onrender.com/api/users/${userId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setUserData(data);
+      } catch (error) {
+        console.error("Erro ao buscar dados do usuário", error);
+      }
+    };
 
-  const handleSubmit = (e) => {
+    if (userId) {
+      fetchUserData();
+      fetchCardData();
+    }
+  }, [userId]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Lógica para criar um cartão
-    console.log("Criando cartão com senha:", password);
-    setModalOpen(false); // Fecha o modal após a criação do cartão
+    if (password !== confirmPassword) {
+      alert("As senhas não coincidem!");
+      return;
+    }
+
+    const cardData = {
+      numero: "",
+      vencimento: "",
+      bandeira: "MasterCard",
+      codigo_seg: "",
+      senha: password,
+      tipo: "Debito",
+      limite: 5000,
+      usuarioId: userId,
+    };
+
+    try {
+      const response = await fetch(
+        `https://projeto-final-m5-api.onrender.com/${userId}/card`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cardData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erro ao criar o cartão");
+      }
+
+      setPassword("");
+      setConfirmPassword("");
+      setModalOpen(false);
+      fetchCardData(); 
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  if (!userData) return <Loader />;
 
   return (
     <>
@@ -70,8 +127,10 @@ const Cards = () => {
             <div className={styles.card}>
               <Card />
             </div>
+
             <div className={styles.cardInfo}>
-              {cardData ? (
+              <h1>Informações do cartão:</h1>
+              {cardData ? ( // Verifica se cardData não é null
                 <>
                   <p>
                     <strong>Número:</strong> {cardData.numero || "N/A"}
@@ -90,19 +149,19 @@ const Cards = () => {
                   </p>
                 </>
               ) : (
-                <p>Carregando informações do cartão...</p>
+                <p>Cartão não encontrado.</p> // Mensagem se não houver cartão
               )}
             </div>
           </div>
-        </div>
 
-        <button
-          className={`${styles.createCard} ${hasCard ? styles.disabledButton : ''}`}
-          onClick={() => setModalOpen(true)}
-          disabled={hasCard}
-        >
-          Criar Cartão
-        </button>
+          <button
+            className={styles.createCard}
+            onClick={() => setModalOpen(true)}
+            disabled={!!cardData} // Desabilita o botão se já houver um cartão
+          >
+            Criar Cartão
+          </button>
+        </div>
       </section>
 
       {modalOpen && (
@@ -131,9 +190,8 @@ const Cards = () => {
                   />
                   <span>Crédito</span>
                 </label>
-
-                <span className={styles.selection}></span>
               </div>
+
               <div className={styles.input_field}>
                 <input
                   required
@@ -142,9 +200,7 @@ const Cards = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <label>Senha</label>
-                <span className={styles.icon}>
-                  <AttachMoneyRoundedIcon />
-                </span>
+                <AttachMoneyRoundedIcon className={styles.icon} />
               </div>
 
               <div className={styles.input_field}>
@@ -155,9 +211,7 @@ const Cards = () => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
                 <label>Repetir Senha</label>
-                <span className={styles.icon}>
-                  <AttachMoneyRoundedIcon />
-                </span>
+                <AttachMoneyRoundedIcon className={styles.icon} />
               </div>
 
               <button type="submit">Criar</button>
@@ -170,6 +224,4 @@ const Cards = () => {
       )}
     </>
   );
-};
-
-export default Cards;
+}

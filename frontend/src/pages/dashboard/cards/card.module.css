@@ -122,25 +122,21 @@
 
 
 .createCard {
-  background-color: #007bff; /* Cor de fundo padrão */
+  background-color: #007bff; /* Cor padrão do botão */
   color: white; /* Cor do texto */
-  border: none; /* Sem borda */
-  border-radius: 5px; /* Bordas arredondadas */
-  padding: 10px 20px; /* Espaçamento interno */
-  cursor: pointer; /* Cursor de ponteiro */
-  font-size: 16px; /* Tamanho da fonte */
+  border: none; /* Remover borda */
+  padding: 10px 20px; /* Estilo do padding */
+  cursor: pointer; /* Cursor de pointer */
+  border-radius: 5px; /* Borda arredondada */
   transition: background-color 0.3s ease; /* Transição suave */
 }
 
-.createCard:hover:not(.disabledButton) {
-  background-color: #0056b3; /* Cor ao passar o mouse (apenas se não estiver desativado) */
-}
-
-.disabledButton {
-  background-color: #d3d3d3; /* Cor de fundo para o botão desativado */
-  color: #303030; /* Cor do texto para o botão desativado */
+.createCard:disabled {
+  background-color: #ccc; /* Cor do botão desativado */
+  color: #666; /* Cor do texto do botão desativado */
   cursor: not-allowed; /* Cursor de não permitido */
 }
+
 
 
 .modal {
