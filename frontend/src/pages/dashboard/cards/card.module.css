@@ -57,23 +57,91 @@
 
 .cardContent {
   padding: 1rem;
-  height: 300px;
+  height: 100%;
   width: 100%;
   margin: 1rem;
+  gap: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative; 
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
-.createCard {
-  background: #6495ed;
-  width: 90%;
-  color: white;
-  border: none;
-  padding: 15px 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 16px;
-  font-weight: bold;
+.cardContent .card {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  
 }
+
+.cardContent .cardInfo  {
+  color: #fff;
+  background-color: #7171713b; /* Fundo claro */
+  border-radius: 8px; /* Bordas arredondadas */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  padding: 20px; /* Espaçamento interno */
+  transition: transform 0.2s; 
+  display: flex;
+  flex-direction: column;
+  transform: none;
+  height: 100%;
+  width: 50%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.cardInfo h1 {
+  color: #ffffff;
+}
+
+.cardInfo p {
+  margin: 10px 0; /* Espaçamento vertical entre os parágrafos */
+  font-family: 'Arial', sans-serif; /* Fonte limpa */
+  color: #ffffff; /* Cor do texto */
+}
+
+.cardInfo strong {
+  color: #ffffff; /* Cor para os rótulos em negrito */
+}
+
+.cardInfo p:last-child {
+  margin-bottom: 0; /* Remove margem do último parágrafo */
+}
+
+
+.createCard {
+  background-color: #007bff; /* Cor de fundo padrão */
+  color: white; /* Cor do texto */
+  border: none; /* Sem borda */
+  border-radius: 5px; /* Bordas arredondadas */
+  padding: 10px 20px; /* Espaçamento interno */
+  cursor: pointer; /* Cursor de ponteiro */
+  font-size: 16px; /* Tamanho da fonte */
+  transition: background-color 0.3s ease; /* Transição suave */
+}
+
+.createCard:hover:not(.disabledButton) {
+  background-color: #0056b3; /* Cor ao passar o mouse (apenas se não estiver desativado) */
+}
+
+.disabledButton {
+  background-color: #d3d3d3; /* Cor de fundo para o botão desativado */
+  color: #303030; /* Cor do texto para o botão desativado */
+  cursor: not-allowed; /* Cursor de não permitido */
+}
+
 
 .modal {
   position: fixed;
@@ -89,7 +157,6 @@
 }
 
 .modalContent {
-  /* From https://css.glass */
   background: rgba(34, 34, 34, 0.46);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);

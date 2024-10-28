@@ -1,25 +1,23 @@
 import { useEffect, useState } from "react";
-import styles from "./card.module.css"; // Mantendo os estilos
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import AttachMoneyRoundedIcon from "@mui/icons-material/AttachMoneyRounded";
-
+import styles from "./card.module.css"; 
 import Animation from "../../../components/backgroundAnim/animation";
 import Card from "../../../components/card-bank/card";
 import Loader from "../../../components/loader/loader";
+import AttachMoneyRoundedIcon from '@mui/icons-material/AttachMoneyRounded'; // Importação do ícone
 
-export default function Cards() {
+const Cards = () => {
+  const [cardData, setCardData] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [hasCard, setHasCard] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [userData, setUserData] = useState(null);
-  const [hasCard, setHasCard] = useState(false); // Estado para verificar se o usuário tem cartão
-  const userId = localStorage.getItem("userId");
 
-  // Função para buscar dados do usuário
-  const fetchUserData = async () => {
+  const userId = localStorage.getItem("userId"); // Certifique-se de que o ID do usuário está armazenado
+
+  const fetchCardData = async () => {
     try {
       const response = await fetch(
-        `https://projeto-final-m5-api.onrender.com/api/users/${userId}`,
+        `https://projeto-final-m5-api.onrender.com/${userId}/card`,
         {
           method: "GET",
           headers: {
@@ -27,75 +25,39 @@ export default function Cards() {
           },
         }
       );
-      const data = await response.json();
-      setUserData(data);
 
-      // Verifica se o usuário já tem um cartão
-      if (data.cards && data.cards.length > 0) {
-        setHasCard(true); // Se houver cartão, atualiza o estado
+      if (!response.ok) {
+        throw new Error("Erro ao buscar dados do cartão");
+      }
+
+      const data = await response.json();
+
+      if (Array.isArray(data) && data.length > 0) {
+        setCardData(data[0]); // Usar o primeiro cartão, se houver mais de um
+        setHasCard(true);
+      } else {
+        setCardData(null); // Garantir que cardData seja nulo se não houver cartões
+        setHasCard(false);
       }
     } catch (error) {
-      console.error("Erro ao buscar dados do usuário", error);
+      console.error("Erro ao buscar dados do cartão:", error);
     }
   };
 
   useEffect(() => {
-    if (userId) {
-      fetchUserData();
-    }
-  }, [userId]);
+    fetchCardData(); // Chama a função ao montar o componente
+  }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("As senhas não coincidem!");
-      return;
-    }
-
-    const cardData = {
-      numero: "", // Pode ser gerado automaticamente pela API
-      vencimento: "", // Pode ser gerado automaticamente pela API
-      bandeira: "MasterCard",
-      codigo_seg: "",
-      senha: password, // Captura a senha do input
-      tipo: "Debito", // Sempre define "Debito" como padrão
-      limite: 5000, // Ou outro valor desejado
-      usuarioId: userId, // Captura do localStorage ou estado
-    };
-
-    try {
-      const response = await fetch(
-        `https://projeto-final-m5-api.onrender.com/${userId}/card`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Incluindo o token de autenticação
-          },
-          body: JSON.stringify(cardData),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Erro ao criar o cartão");
-      }
-
-      // Limpar o formulário e fechar o modal após sucesso
-      setPassword("");
-      setConfirmPassword("");
-      setModalOpen(false);
-      fetchUserData(); // Atualiza os dados do usuário após criar o cartão
-    } catch (error) {
-      console.error(error);
-    }
+    // Lógica para criar um cartão
+    console.log("Criando cartão com senha:", password);
+    setModalOpen(false); // Fecha o modal após a criação do cartão
   };
-
-  if (!userData) return <Loader />; // Carregando dados do usuário
 
   return (
     <>
       <Animation />
-
       <section className={styles.container}>
         <nav className={styles.navbar}>
           <div className={styles.titleTransfer}>
@@ -105,17 +67,42 @@ export default function Cards() {
 
         <div className={styles.transferContent}>
           <div className={styles.cardContent}>
-            <Card />
+            <div className={styles.card}>
+              <Card />
+            </div>
+            <div className={styles.cardInfo}>
+              {cardData ? (
+                <>
+                  <p>
+                    <strong>Número:</strong> {cardData.numero || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Vencimento:</strong> {cardData.vencimento || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Bandeira:</strong> {cardData.bandeira || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Limite:</strong> R$ {cardData.limite || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Tipo:</strong> {cardData.tipo || "N/A"}
+                  </p>
+                </>
+              ) : (
+                <p>Carregando informações do cartão...</p>
+              )}
+            </div>
           </div>
-
-          <button
-            className={styles.createCard}
-            onClick={() => setModalOpen(true)}
-            disabled={hasCard} // Desativa o botão se o usuário já tem um cartão
-          >
-            Criar Cartão
-          </button>
         </div>
+
+        <button
+          className={`${styles.createCard} ${hasCard ? styles.disabledButton : ''}`}
+          onClick={() => setModalOpen(true)}
+          disabled={hasCard}
+        >
+          Criar Cartão
+        </button>
       </section>
 
       {modalOpen && (
@@ -129,8 +116,8 @@ export default function Cards() {
                     type="radio"
                     name="cardType"
                     value="debito"
-                    checked // O botão de "Débito" sempre estará ativo
-                    readOnly // Para impedir alterações
+                    checked
+                    readOnly
                   />
                   <span>Débito</span>
                 </label>
@@ -140,7 +127,7 @@ export default function Cards() {
                     type="radio"
                     name="cardType"
                     value="credito"
-                    disabled // Desabilita a opção "Crédito"
+                    disabled
                   />
                   <span>Crédito</span>
                 </label>
@@ -183,4 +170,6 @@ export default function Cards() {
       )}
     </>
   );
-}
+};
+
+export default Cards;
