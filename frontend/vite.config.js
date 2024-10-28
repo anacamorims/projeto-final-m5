@@ -8,12 +8,12 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'projeto final',
-        short_name: 'PWA App',
+        name: 'Lunar Pay',
+        short_name: 'Lunar Pay',
         start_url: '/sign/in', 
         display: 'fullscreen', 
-        background_color: '#ffffff',
-        theme_color: '#ffffff',
+        background_color: '#6495ed',
+        theme_color: '#6494ed',
         icons: [
           {
             src: 'logo.png',
