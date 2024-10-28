@@ -1,7 +1,7 @@
 // src/pages/onboarding/index.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Onboarding.module.css";
+import styles from "./onboarding.module.css";
 
 const Onboarding = () => {
   const navigate = useNavigate();
