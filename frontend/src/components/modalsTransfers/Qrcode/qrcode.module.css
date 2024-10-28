@@ -1,0 +1,131 @@
+.qrcodeContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(34, 34, 34, 0.46);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(9.4px);
+  -webkit-backdrop-filter: blur(9.4px);
+  width: 80%;
+  border-radius: 20px;
+  bottom: 0;
+  gap: 1rem;
+  box-sizing: border-box;
+}
+
+.qrcodeContent h4 {
+  padding: 0.5rem;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.qrcodeInput {
+  width: 90%;
+  display: flex;
+  max-width: 400px;
+  padding: 1rem 0;
+}
+
+.qrcodeInput input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.qrcodeInput button {
+  width: 50px;
+  height: 50px;
+  background-color: #4d4d4d;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.buttonIncrement {
+  border-radius: 0 10px 10px 0;
+}
+
+.buttonDecrement {
+  border-radius: 10px 0 0 10px;
+}
+
+.qrcodeCanva {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  margin-top: 10px;
+  gap: 1rem;
+}
+
+/* Canvas ajustado para melhor responsividade */
+.qrcodeCanva canvas {
+  width: 70% !important; /* Ocupa 70% da largura do container */
+  max-width: 250px !important; /* Limite máximo para manter o layout compacto */
+  min-width: 200px !important; /* Limite mínimo para boa visualização */
+  height: auto !important;
+  padding: 15px;
+  background-color: aliceblue;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajuste para telas maiores */
+@media (min-width: 1024px) {
+  .qrcodeCanva canvas {
+    width: 50% !important; /* Ocupa menos espaço em telas grandes */
+    max-width: 300px !important; /* Tamanho controlado para grandes telas */
+  }
+}
+
+.downloadShareButtons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+}
+
+.downloadShareButtons button {
+  flex: 1;
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.downloadShareButtons button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.downloadShareButtons .iconButton {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dadada52;
+  border-radius: 50%;
+  font-size: 1.5rem;
+}
+
+.downloadShareButtons span {
+  font-size: 0.9rem;
+}

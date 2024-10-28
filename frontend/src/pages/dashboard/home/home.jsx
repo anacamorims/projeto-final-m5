@@ -5,15 +5,30 @@ import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import AttachMoneyRoundedIcon from "@mui/icons-material/AttachMoneyRounded";
 import LocalMallRoundedIcon from "@mui/icons-material/LocalMallRounded";
 import CurrencyExchangeRoundedIcon from "@mui/icons-material/CurrencyExchangeRounded";
+import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 import PixRoundedIcon from "@mui/icons-material/PixRounded";
 import CurrencyBitcoinRoundedIcon from "@mui/icons-material/CurrencyBitcoinRounded";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 import Loader from "../../../components/loader/loader";
-import Animation from "../../../components/backgroundAnim/animation"
+import Animation from "../../../components/backgroundAnim/animation";
+import {
+  AccountBalance,
+  CreditCard,
+  TransferWithinAStation,
+  Description,
+  MobileFriendly,
+  Assessment,
+  TrendingUp,
+  AttachMoney,
+} from "@mui/icons-material";
 
 export default function HomeApp() {
   const [userData, setUserData] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [userNames, setUserNames] = useState({});
+  const [isBalanceVisible, setIsBalanceVisible] = useState(true); // Controle de visibilidade do saldo
+
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -59,57 +74,9 @@ export default function HomeApp() {
     }
   }, [userId]);
 
-  const fetchUserName = async (id) => {
-    if (userNames[id]) return userNames[id];
-
-    try {
-      const response = await fetch(
-        `https://projeto-final-m5-api.onrender.com/api/users/${id}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        }
-      );
-      const data = await response.json();
-      setUserNames((prev) => ({ ...prev, [id]: data.name }));
-      return data.name;
-    } catch (error) {
-      console.error("Erro ao buscar nome do usuário", error);
-      return "Desconhecido";
-    }
+  const toggleBalanceVisibility = () => {
+    setIsBalanceVisible((prev) => !prev);
   };
-
-  
-  const prepareTransactions = async () => {
-    const transactionsWithTitles = await Promise.all(
-      transactions.map(async (transaction) => {
-        const otherUserId =
-          transaction.userId === parseInt(userId) ? transaction.receiverId : transaction.userId;
-  
-        const otherUserName = await fetchUserName(otherUserId);
-  
-        const title =
-          transaction.amount < 0
-            ? `Transferencia` 
-            : `Recebimento`; 
-  
-        return { ...transaction, title };
-      })
-    );
-  
-    setTransactions(transactionsWithTitles);
-  };
-  
-  
-  
-
-  useEffect(() => {
-    if (transactions.length > 0) {
-      prepareTransactions();
-    }
-  }, [transactions]);
 
   if (!userData) return <Loader />;
 
@@ -129,26 +96,120 @@ export default function HomeApp() {
 
         <div className={styles.dashContent}>
           <div className={styles.containerResponse}>
-            <div className={styles.cardContainer}>
-              <Card />
+            <div className={styles.infoContainer}>
+              <div className={styles.infoBankName}>
+                <AccountBalanceWalletRoundedIcon />
+                <span>Sua carteira</span>
+              </div>
+              <div className={styles.infoAmount}>
+                <h1>
+                  R$
+                  {isBalanceVisible
+                    ? ` ${userData.balance.toFixed(2)}`
+                    : "*****"}
+                </h1>
+                <button
+                  onClick={toggleBalanceVisibility}
+                  className={styles.eyeIcon}
+                >
+                  {isBalanceVisible ? (
+                    <VisibilityRoundedIcon />
+                  ) : (
+                    <VisibilityOffRoundedIcon />
+                  )}
+                </button>
+              </div>
+              <ul className={styles.icons}>
+                <li className={styles.icon}>
+                  <div className={styles.iconSvg}>
+                    <AttachMoneyRoundedIcon fontSize="large" />
+                  </div>
+                  Saldo
+                </li>
+                <li className={styles.icon}>
+                  <div className={styles.iconSvg}>
+                    <LocalMallRoundedIcon fontSize="large" />
+                  </div>
+                  Loja
+                </li>
+                <li className={styles.icon}>
+                  <div className={styles.iconSvg}>
+                    <PixRoundedIcon fontSize="large" />
+                  </div>
+                  Pix
+                </li>
+                <li className={styles.icon}>
+                  <div className={styles.iconSvg}>
+                    <CurrencyBitcoinRoundedIcon fontSize="large" />
+                  </div>
+                  Bitcoin
+                </li>
+              </ul>
             </div>
-            <ul className={styles.icons}>
-              <li className={styles.icon}>
-                <AttachMoneyRoundedIcon fontSize="large" />
-              </li>
-              <li className={styles.icon}>
-                <LocalMallRoundedIcon fontSize="large" />
-              </li>
-              <li className={styles.icon}>
-                <PixRoundedIcon fontSize="large" />
-              </li>
-              <li className={styles.icon}>
-                <CurrencyBitcoinRoundedIcon fontSize="large" />
-              </li>
-            </ul>
           </div>
 
-          <div className={styles.transactions}>
+          <div className={styles.services}>
+            <div className={styles.servicesContent}>
+              <div className={styles.servicesNav}>
+                <h3>Outros Serviços</h3>
+                <span>Ver tudo</span>
+              </div>
+              <ul className={styles.servicesList}>
+                <li className={styles.servicesItem}>
+                  <div className={styles.servicesIcon}>
+                    <AccountBalance />
+                  </div>
+                  Conta
+                </li>
+                <li className={styles.servicesItem}>
+                  <div className={styles.servicesIcon}>
+                    <CreditCard />
+                  </div>
+                  Cartões
+                </li>
+                <li className={styles.servicesItem}>
+                  <div className={styles.servicesIcon}>
+                    <TransferWithinAStation />
+                  </div>
+                  Transferir
+                </li>
+                <li className={styles.servicesItem}>
+                  <div className={styles.servicesIcon}>
+                    <Description />
+                  </div>
+                  Boleto
+                </li>
+                <li className={styles.servicesItem}>
+                  <div className={styles.servicesIcon}>
+                    <MobileFriendly />
+                  </div>
+                  Recarga
+                </li>
+                <li className={styles.servicesItem}>
+                  <div className={styles.servicesIcon}>
+                    <Assessment />
+                  </div>
+                  Gastos
+                </li>
+                <li className={styles.servicesItem}>
+                  <div className={styles.servicesIcon}>
+                    <TrendingUp />
+                  </div>
+                  Investir
+                </li>
+                <li className={styles.servicesItem}>
+                  <div className={styles.servicesIcon}>
+                    <AttachMoney />
+                  </div>
+                  Crédito
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className={styles.partnersContainer}></div>
+
+          {/* <div className={styles.transactions}>
             <div className={styles.transactionsNav}>
               <h3>Transações</h3>
               <span>Ver tudo</span>
@@ -171,12 +232,15 @@ export default function HomeApp() {
                     </div>
                     <div className={styles.transactionContent}>
                       <div className={styles.transactionTitle}>
-                        {transaction.title}
+                        {transaction.amount < 0
+                          ? "Transferência"
+                          : "Recebimento"}
                       </div>
                       <div className={styles.transactionDate}>
                         <small>
                           {new Date(transaction.createdAt).toLocaleDateString()}{" "}
-                          - {new Date(transaction.createdAt).toLocaleTimeString()}
+                          -{" "}
+                          {new Date(transaction.createdAt).toLocaleTimeString()}
                         </small>
                       </div>
                     </div>
@@ -193,7 +257,7 @@ export default function HomeApp() {
                 );
               })}
             </ul>
-          </div>
+          </div> */}
         </div>
       </section>
     </>

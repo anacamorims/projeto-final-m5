@@ -1,10 +1,10 @@
 {
-    "name": "projeto final",
-    "short_name": "PWA app",
+    "name": "Lunar Pay",
+    "short_name": "Lunar Pay",
     "start_url": "/sign/in", 
     "display": "fullscreen", 
-    "background_color": "#ffffff",
-    "theme_color": "#ffffff",
+    "background_color": "#000",
+    "theme_color": "#000",
     "icons": [
       {
         "src": "logo.png",

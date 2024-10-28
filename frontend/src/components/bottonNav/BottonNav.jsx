@@ -30,7 +30,9 @@ const BottomNavigation = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
+      <div className={styles.pageContent}>{renderPage()}</div>
+
       <nav className={styles.bottomNavigation}>
         <ul className={styles.navList}>
           <li className={styles.navItem}>
@@ -87,8 +89,6 @@ const BottomNavigation = () => {
           </li>
         </ul>
       </nav>
-
-      <div className={styles.pageContent}>{renderPage()}</div>
     </div>
   );
 };
