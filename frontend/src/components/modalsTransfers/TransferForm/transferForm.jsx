@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import modalStyles from "../modalGlobal.module.css"; // Estilo global do modal
-import formStyles from "./transferForm.module.css"; // Estilo específico do formulário
+import formStyles from "./transferform.module.css"; // Estilo específico do formulário
 import TagRoundedIcon from "@mui/icons-material/TagRounded";
 import AttachMoneyRoundedIcon from "@mui/icons-material/AttachMoneyRounded";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
