@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./card.module.css"; // Mantendo os estilos
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import AttachMoneyRoundedIcon from "@mui/icons-material/AttachMoneyRounded";
-
 import Animation from "../../../components/backgroundAnim/animation";
 import Card from "../../../components/card-bank/card";
 import Loader from "../../../components/loader/loader";
@@ -12,36 +10,60 @@ export default function Cards() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userData, setUserData] = useState(null);
-  const [hasCard, setHasCard] = useState(false); // Estado para verificar se o usuário tem cartão
+  const [cardData, setCardData] = useState(null);
   const userId = localStorage.getItem("userId");
 
-  // Função para buscar dados do usuário
-  const fetchUserData = async () => {
+  const fetchCardData = async () => {
     try {
       const response = await fetch(
-        `https://projeto-final-m5-api.onrender.com/api/users/${userId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        }
+        `https://projeto-final-m5-api.onrender.com/${userId}/card`
       );
-      const data = await response.json();
-      setUserData(data);
 
-      // Verifica se o usuário já tem um cartão
-      if (data.cards && data.cards.length > 0) {
-        setHasCard(true); // Se houver cartão, atualiza o estado
+      if (!response.ok) {
+        // Se o cartão não for encontrado, defina cardData como null
+        if (response.status === 404) {
+          setCardData(null);
+          return;
+        }
+        throw new Error("Erro ao buscar dados do cartão");
+      }
+
+      const data = await response.json();
+
+      // Verifique se os dados retornados são um cartão
+      if (Array.isArray(data) && data.length > 0) {
+        setCardData(data[0]); // Se houver mais de um cartão, usa o primeiro
+      } else {
+        setCardData(data); // Caso os dados venham como objeto
       }
     } catch (error) {
-      console.error("Erro ao buscar dados do usuário", error);
+      console.error("Erro ao buscar dados do cartão:", error);
+      setCardData(null); // Defina cardData como null em caso de erro
     }
   };
 
   useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(
+          `https://projeto-final-m5-api.onrender.com/api/users/${userId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setUserData(data);
+      } catch (error) {
+        console.error("Erro ao buscar dados do usuário", error);
+      }
+    };
+
     if (userId) {
       fetchUserData();
+      fetchCardData();
     }
   }, [userId]);
 
@@ -53,14 +75,14 @@ export default function Cards() {
     }
 
     const cardData = {
-      numero: "", // Pode ser gerado automaticamente pela API
-      vencimento: "", // Pode ser gerado automaticamente pela API
+      numero: "",
+      vencimento: "",
       bandeira: "MasterCard",
-      codigo_seg: "", 
-      senha: password, // Captura a senha do input
-      tipo: "Debito", // Sempre define "Debito" como padrão
-      limite: 5000, // Ou outro valor desejado
-      usuarioId: userId, // Captura do localStorage ou estado
+      codigo_seg: "",
+      senha: password,
+      tipo: "Debito",
+      limite: 5000,
+      usuarioId: userId,
     };
 
     try {
@@ -70,7 +92,6 @@ export default function Cards() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Incluindo o token de autenticação
           },
           body: JSON.stringify(cardData),
         }
@@ -80,45 +101,63 @@ export default function Cards() {
         throw new Error("Erro ao criar o cartão");
       }
 
-      // Limpar o formulário e fechar o modal após sucesso
       setPassword("");
       setConfirmPassword("");
       setModalOpen(false);
-      fetchUserData(); // Atualiza os dados do usuário após criar o cartão
+      fetchCardData(); 
     } catch (error) {
       console.error(error);
     }
   };
 
-  if (!userData) return <Loader />; // Carregando dados do usuário
+  if (!userData) return <Loader />;
 
   return (
     <>
       <Animation />
-
       <section className={styles.container}>
         <nav className={styles.navbar}>
-          <div className={styles.avatarUser}>
-            <AccountCircleRoundedIcon />
-          </div>
-          <div className={styles.welcomeText}>
-            <h4>{userData.name}</h4>
+          <div className={styles.titleTransfer}>
+            <h2>Cartões</h2>
           </div>
         </nav>
 
         <div className={styles.transferContent}>
-          <div className={styles.titleTransfer}>
-            <h2>Cartões</h2>
-          </div>
-
           <div className={styles.cardContent}>
-            <Card />
+            <div className={styles.card}>
+              <Card />
+            </div>
+
+            <div className={styles.cardInfo}>
+              <h1>Informações do cartão:</h1>
+              {cardData ? ( // Verifica se cardData não é null
+                <>
+                  <p>
+                    <strong>Número:</strong> {cardData.numero || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Vencimento:</strong> {cardData.vencimento || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Bandeira:</strong> {cardData.bandeira || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Limite:</strong> R$ {cardData.limite || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Tipo:</strong> {cardData.tipo || "N/A"}
+                  </p>
+                </>
+              ) : (
+                <p>Cartão não encontrado.</p> // Mensagem se não houver cartão
+              )}
+            </div>
           </div>
 
           <button
             className={styles.createCard}
             onClick={() => setModalOpen(true)}
-            disabled={hasCard} // Desativa o botão se o usuário já tem um cartão
+            disabled={!!cardData} // Desabilita o botão se já houver um cartão
           >
             Criar Cartão
           </button>
@@ -136,8 +175,8 @@ export default function Cards() {
                     type="radio"
                     name="cardType"
                     value="debito"
-                    checked // O botão de "Débito" sempre estará ativo
-                    readOnly // Para impedir alterações
+                    checked
+                    readOnly
                   />
                   <span>Débito</span>
                 </label>
@@ -147,13 +186,12 @@ export default function Cards() {
                     type="radio"
                     name="cardType"
                     value="credito"
-                    disabled // Desabilita a opção "Crédito"
+                    disabled
                   />
                   <span>Crédito</span>
                 </label>
-
-                <span className={styles.selection}></span>
               </div>
+
               <div className={styles.input_field}>
                 <input
                   required
@@ -162,9 +200,7 @@ export default function Cards() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <label>Senha</label>
-                <span className={styles.icon}>
-                  <AttachMoneyRoundedIcon />
-                </span>
+                <AttachMoneyRoundedIcon className={styles.icon} />
               </div>
 
               <div className={styles.input_field}>
@@ -175,9 +211,7 @@ export default function Cards() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
                 <label>Repetir Senha</label>
-                <span className={styles.icon}>
-                  <AttachMoneyRoundedIcon />
-                </span>
+                <AttachMoneyRoundedIcon className={styles.icon} />
               </div>
 
               <button type="submit">Criar</button>
