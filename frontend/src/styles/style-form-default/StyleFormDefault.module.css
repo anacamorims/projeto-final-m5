@@ -26,3 +26,26 @@ a {
     color: #103984;
 }
 
+.password_strength {
+    margin-top: 10px; 
+    font-size: 16px;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px; 
+}
+
+/* Força Fraca */
+.password_strength.Fraca {
+    color: red; /* Cor para senha fraca */
+}
+
+/* Força Média */
+.password_strength.Media {
+    color: orange; /* Cor para senha média */
+}
+
+/* Força Forte */
+.password_strength.Forte {
+    color: green; /* Cor para senha forte */
+}

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import QrScanner from "react-qr-scanner";
+import React, { useState, useEffect, useRef } from "react";
 import jsQR from "jsqr";
 import modalStyles from "../modalGlobal.module.css";
 import scannerStyles from "./scanner.module.css";
@@ -15,35 +14,88 @@ export default function ModalScanner({
   const [scanResult, setScanResult] = useState("");
   const [useCamera, setUseCamera] = useState(true);
   const [paymentData, setPaymentData] = useState(null);
+  const [facingMode, setFacingMode] = useState("environment");
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const intervalRef = useRef(null);
+  const streamRef = useRef(null);
+  
+  const userId = localStorage.getItem("userId");
 
-  const handleScan = (data) => {
-    if (data) {
-      const qrData =
-        typeof data === "object" && data !== null ? data.text : data;
-      setScanResult(qrData);
-
-      try {
-        const parsedData = JSON.parse(qrData);
-
-        // Validação da data de validade
-        const currentDate = new Date();
-        const validUntil = new Date(parsedData.validUntil);
-
-        if (validUntil < currentDate) {
-          alert("QR Code expirado ou inválido.");
-          return; // Impede a continuação se o QR Code estiver expirado
+  useEffect(() => {
+    const startCamera = async () => {
+      if (videoRef.current) {
+        try {
+          streamRef.current = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode },
+          });
+          videoRef.current.srcObject = streamRef.current;
+          videoRef.current.play();
+        } catch (error) {
+          console.error("Erro ao acessar a câmera:", error);
+          alert("Erro ao acessar a câmera. Verifique as permissões.");
         }
+      }
+    };
 
-        setPaymentData(parsedData);
-        onQRCodeRead(qrData);
-        setUseCamera(false); // Desativa a câmera após a leitura
-      } catch (error) {
-        alert("Erro ao ler o QR Code: Formato inválido.");
+    const stopCamera = () => {
+      if (streamRef.current) {
+        const tracks = streamRef.current.getTracks();
+        tracks.forEach((track) => track.stop());
+        streamRef.current = null; 
+      }
+    };
+
+    if (useCamera) {
+      startCamera();
+      intervalRef.current = setInterval(handleScan, 100); // Inicia a leitura a cada 100ms
+    } else {
+      stopCamera();
+      clearInterval(intervalRef.current); // Limpa o intervalo ao parar a câmera
+    }
+
+    return () => {
+      clearInterval(intervalRef.current); // Limpa o intervalo ao desmontar
+      stopCamera(); // Para a câmera quando o componente é desmontado
+    };
+  }, [useCamera, facingMode]);
+
+  const handleScan = () => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+    const video = videoRef.current;
+
+    if (video && video.readyState === video.HAVE_ENOUGH_DATA) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
+      if (qrCode) {
+        handleScanResult(qrCode.data);
       }
     }
   };
 
-  const handleError = (err) => console.error(err);
+  const handleScanResult = (qrData) => {
+    setScanResult(qrData);
+    try {
+      const parsedData = JSON.parse(qrData);
+      const currentDate = new Date();
+      const validUntil = new Date(parsedData.validUntil);
+
+      if (validUntil < currentDate) {
+        alert("QR Code expirado ou inválido.");
+        return;
+      }
+
+      setPaymentData(parsedData);
+      onQRCodeRead(qrData);
+      setUseCamera(false); // Desativar a câmera após ler o QR Code
+    } catch (error) {
+      alert("Erro ao ler o QR Code: Formato inválido.");
+    }
+  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -66,7 +118,7 @@ export default function ModalScanner({
           );
           const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
           if (qrCode) {
-            handleScan(qrCode.data);
+            handleScanResult(qrCode.data);
           } else {
             alert("QR Code não encontrado.");
           }
@@ -76,50 +128,60 @@ export default function ModalScanner({
     }
   };
 
-  const handleCancelPayment = () => {
-    setPaymentData(null);
-    setUseCamera(true);
+  const toggleCamera = async () => {
+    await stopCamera(); // Para a câmera atual
+    setFacingMode((prev) => (prev === "environment" ? "user" : "environment")); // Alterna a câmera
+    await startCamera(); // Inicia a nova câmera
   };
 
   const handlePayment = async () => {
-    if (!paymentData) {
-      alert("Nenhum dado de pagamento encontrado.");
-      return;
-    }
-
-    const { accountNumber, value, description } = paymentData;
-    const payload = {
-      senderAccountNumber: userData.accountNumber,
-      receiverAccountNumber: accountNumber,
-      amount: parseFloat(value),
-      type: "payment",
-      description: description || "Pagamento realizado via QR Code",
-    };
-
     try {
-      const response = await fetch(
-        "https://projeto-final-m5-api.onrender.com/api/transactions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-
+      const payload = {
+        senderAccountNumber: String(userData.accountNumber), // Número da conta do remetente
+        receiverAccountNumber: String(paymentData.accountNumber), // Número da conta do recebedor
+        amount: parseFloat(paymentData.value), // Valor da transferência
+        type: "transfer",
+        description: paymentData.description || "Pagamento via QR Code",
+      };
+  
+      console.log("Payload enviado:", payload); // Verifica o payload
+  
+      const response = await fetch("https://projeto-final-m5-api.onrender.com/api/transactions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Pega o token do localStorage
+        },
+        body: JSON.stringify(payload), // Converte o payload em JSON
+      });
+  
       if (!response.ok) {
-        const errorData = await response.json();
-        alert(`Erro no pagamento: ${errorData.message}`);
+        const errorData = await response.json(); // Captura o erro retornado da API
+        console.error("Erro da API:", errorData);
+        alert(`Erro na transferência: ${errorData.message}`);
         return;
       }
-
-      alert("Pagamento realizado com sucesso!");
-      onClose();
+  
+      alert("Transferência realizada com sucesso!");
+      setPaymentData(null); // Limpa os dados do pagamento após a transferência
+      onClose(); // Fecha o modal após a transferência bem-sucedida
     } catch (error) {
-      alert("Falha no pagamento.");
+      console.error("Erro ao realizar transferência:", error);
+      alert("Falha na transferência.");
     }
+  };
+  
+   
+
+  const handleCancelPayment = () => {
+    setPaymentData(null);
+    setUseCamera(true); // Reinicia o uso da câmera
+    setScanResult("");
+  };
+
+  const handleClose = () => {
+    setUseCamera(false); // Desativa a câmera ao fechar o modal
+    onClose();
   };
 
   return (
@@ -167,13 +229,18 @@ export default function ModalScanner({
         <>
           {useCamera ? (
             <>
-              <QrScanner
-                delay={300}
-                onError={handleError}
-                onScan={handleScan}
+              <video
+                ref={videoRef}
                 className={scannerStyles.videoBackground}
+                autoPlay
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
-              <div className={scannerStyles.videoOverlay}></div>
+              <canvas
+                ref={canvasRef}
+                style={{ display: "none" }}
+              />
+                    <div className={scannerStyles.videoOverlay}></div>
+
             </>
           ) : (
             <label className={scannerStyles.fileInputLabel}>
@@ -183,13 +250,12 @@ export default function ModalScanner({
                 onChange={handleFileChange}
                 className={scannerStyles.fileInput}
               />
-              <span className={scannerStyles.fileInputText}>Carregar Arquivo</span>{" "}
-              {/* Texto opcional */}
+              <span className={scannerStyles.fileInputText}>Carregar Arquivo</span>
             </label>
           )}
 
           <div className={scannerStyles.content}>
-            <button className={modalStyles.closeButton} onClick={onClose}>
+            <button className={modalStyles.closeButton} onClick={handleClose}>
               <ArrowBackIosNewRoundedIcon />
             </button>
 
@@ -198,7 +264,10 @@ export default function ModalScanner({
                 <input
                   type="radio"
                   checked={useCamera}
-                  onChange={() => setUseCamera(true)}
+                  onChange={() => {
+                    setUseCamera(true);
+                    stopCamera(); // Para a câmera ao mudar para modo de arquivo
+                  }}
                   className={scannerStyles.radioInput}
                 />
                 <PhotoCameraIcon className={scannerStyles.icon} />
@@ -208,13 +277,18 @@ export default function ModalScanner({
                 <input
                   type="radio"
                   checked={!useCamera}
-                  onChange={() => setUseCamera(false)}
+                  onChange={() => {
+                    setUseCamera(false);
+                    stopCamera(); // Para a câmera ao mudar para modo de arquivo
+                  }}
                   className={scannerStyles.radioInput}
                 />
                 <UploadIcon className={scannerStyles.icon} />
-                <span>Carregar Arquivo</span>
+                <span>Carregar Imagem</span>
               </label>
             </div>
+
+           
           </div>
         </>
       )}

@@ -5,6 +5,7 @@ import translations from "./translations";
 import TagRoundedIcon from "@mui/icons-material/TagRounded";
 import Animation from "../../../components/backgroundAnim/animation";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import InputMask from "react-input-mask"; // Importação do InputMask
 
 const ProfilePage = () => {
   const userId = localStorage.getItem("userId");
@@ -82,7 +83,7 @@ const ProfilePage = () => {
       setLoading(false);
     }
   };
- 
+
   if (!userData) return <Loader />;
 
   return (
@@ -135,13 +136,21 @@ const ProfilePage = () => {
           </div>
 
           <div className={styles.input_field}>
-            <input
-              required
-              name="phoneNumber"
-              type="text"
+            <InputMask
+              mask="(99) 99999-9999"
               value={formData.contactNumber}
               onChange={handleInputChange}
-            />
+            >
+              {() => (
+                <input
+                  required
+                  name="contactNumber"
+                  type="text"
+                  value={formData.contactNumber}
+                  onChange={handleInputChange}
+                />
+              )}
+            </InputMask>
             <label>Telefone</label>
             <span className={styles.icon}>
               <TagRoundedIcon />
