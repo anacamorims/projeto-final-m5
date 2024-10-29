@@ -11,6 +11,7 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import ModalComponent from "../../../components/ModalProfile/modalProfile";
 import TagRoundedIcon from "@mui/icons-material/TagRounded";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const userId = localStorage.getItem("userId");
@@ -21,6 +22,7 @@ const ProfilePage = () => {
   const [contactNumber, setContactNumber] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("");
+  const navigate = useNavigate();
 
   // Fetch user data on mount
   useEffect(() => {
@@ -163,12 +165,13 @@ const ProfilePage = () => {
                 internacionais com taxas reduzidas.
               </li>
               <li>
-                <strong>Investimentos:</strong> Acesse uma variedade de opções
-                de investimento, desde CDBs até fundos de investimento.
+                <strong>Gerar QR Code de Pagamento:</strong> Gere QR Codes para
+                facilitar o recebimento de pagamentos de forma rápida e segura.
               </li>
               <li>
-                <strong>Empréstimos:</strong> Solicite empréstimos pessoais com
-                taxas de juros competitivas.
+                <strong>Scanner de QR Code:</strong> Utilize nosso scanner
+                integrado para realizar pagamentos instantâneos através de QR
+                Codes.
               </li>
             </ul>
           </div>
@@ -178,13 +181,32 @@ const ProfilePage = () => {
           <div className={styles.modalContent}>
             <p className={styles.contentBody}>
               Estes Termos de Uso estabelecem as condições sob as quais você
-              pode usar os serviços oferecidos por nosso banco digital. Ao usar
-              nossos serviços, você concorda com estes termos.
+              pode usar os serviços oferecidos pelo banco digital "Lunar Pay". É
+              importante destacar que o "Lunar Pay" é um projeto acadêmico e
+              fictício, criado para fins educacionais e não representa uma
+              instituição financeira real.
             </p>
             <p className={styles.contentBody}>
-              O uso do serviço é permitido apenas para usuários maiores de 18
-              anos e que tenham capacidade legal. Reservamo-nos o direito de
-              modificar estes termos a qualquer momento.
+              Ao utilizar nossos serviços, você concorda em cumprir estes
+              termos. O uso do serviço é permitido apenas para usuários maiores
+              de 18 anos e que tenham capacidade legal. Reservamo-nos o direito
+              de modificar estes termos a qualquer momento, e recomendamos que
+              você os revise periodicamente.
+            </p>
+            <p className={styles.contentBody}>
+              Os serviços oferecidos pelo "Lunar Pay" são simulados e não
+              envolvem transações financeiras reais. Todas as informações
+              fornecidas neste aplicativo são fictícias e têm como objetivo
+              proporcionar uma experiência de aprendizado.
+            </p>
+            <p className={styles.contentBody}>
+              A sua privacidade é importante para nós. Embora não coletamos
+              informações pessoais reais, incentivamos você a não compartilhar
+              dados sensíveis neste ambiente acadêmico.
+            </p>
+            <p className={styles.contentBody}>
+              Qualquer dúvida sobre estes Termos de Uso deve ser direcionada
+              para o responsável pelo projeto acadêmico.
             </p>
           </div>
         );
@@ -192,50 +214,194 @@ const ProfilePage = () => {
         return (
           <div className={styles.modalContent}>
             <p className={styles.contentBody}>
-              Nossa Política de Privacidade descreve como coletamos, usamos e
-              protegemos suas informações pessoais. Nós nos comprometemos a
-              proteger sua privacidade e a tratar suas informações de forma
-              segura.
+              Nossa Política de Privacidade descreve como gerenciamos
+              informações no contexto do banco digital fictício "Lunar Pay". É
+              importante notar que, como um projeto acadêmico, recomendamos
+              fortemente que você não insira dados reais ou sensíveis, como
+              informações pessoais ou financeiras.
             </p>
             <p className={styles.contentBody}>
-              Coletamos dados pessoais, como nome, e-mail, CPF e informações
-              financeiras, apenas com o seu consentimento. Essas informações são
-              usadas para fornecer nossos serviços e podem ser compartilhadas
-              com instituições financeiras parceiras para a realização de
-              transações.
+              No "Lunar Pay", as informações inseridas, como nome, e-mail e
+              outras, são armazenadas em um banco de dados para fins de
+              simulação e aprendizado. Embora esses dados sejam armazenados,
+              eles não serão utilizados para qualquer finalidade além do
+              desenvolvimento da experiência do usuário no aplicativo.
             </p>
             <p className={styles.contentBody}>
-              Você pode acessar, corrigir ou excluir suas informações a qualquer
-              momento. Para mais detalhes, consulte a seção de gerenciamento de
-              conta em nosso aplicativo.
+              Tratamos todos os dados de forma segura, mas, por se tratar de um
+              projeto acadêmico, não garantimos proteção total contra acessos
+              não autorizados. O foco é proporcionar um ambiente educacional que
+              simule a experiência de uso de um banco digital.
+            </p>
+            <p className={styles.contentBody}>
+              Como este é um projeto acadêmico, os dados coletados são fictícios
+              e não podem ser acessados, corrigidos ou excluídos, exceto pelos
+              desenvolvedores do projeto. Recomendamos que você evite inserir
+              informações pessoais sensíveis durante a interação com o "Lunar
+              Pay".
+            </p>
+            <p className={styles.contentBody}>
+              Qualquer dúvida sobre nossa Política de Privacidade deve ser
+              direcionada ao responsável pelo projeto acadêmico.
             </p>
           </div>
         );
       case "Ajuda":
         return (
           <div className={styles.modalContent}>
-            <p className={styles.contentBody}>
-              Se você precisar de ajuda, nossa equipe de suporte está disponível
-              24/7 para responder suas perguntas e resolver problemas. Você pode
-              nos contatar através dos seguintes canais:
-            </p>
-            <ul className={styles.contentBody}>
-              <li>
-                <strong>Email:</strong> suporte@bancodigital.com
-              </li>
-              <li>
-                <strong>Telefone:</strong> 0800-123-456
-              </li>
-              <li>
-                <strong>Chat ao Vivo:</strong> Acesse nosso aplicativo e inicie
-                um chat com um de nossos atendentes.
-              </li>
-            </ul>
-            <p className={styles.contentBody}>
-              Para perguntas frequentes, consulte nossa seção de FAQ em nosso
-              site.
-            </p>
-          </div>
+          <p className={styles.contentBody}>
+            Se você precisar de ajuda, nossa equipe de desenvolvimento está disponível
+            24/7 para responder suas perguntas e resolver problemas. Você pode
+            entrar em contato diretamente com os desenvolvedores através dos seguintes canais:
+          </p>
+          <h3 className={styles.contentBody}>
+            Contato com a Equipe de Desenvolvimento:
+          </h3>
+          <p className={styles.contentBody}>
+            Para mais informações ou questões específicas, você pode entrar em
+            contato diretamente com nossa equipe de desenvolvimento:
+          </p>
+          <ul className={styles.contentBody}>
+            <li>
+              <strong>Nome:</strong> Kauã Kelvyn <br />
+              <strong>Título:</strong> Dev Fullstack <br />
+              <strong>LinkedIn:</strong>{" "}
+              <a
+                href="https://www.linkedin.com/in/dev-kauã/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Kauã Kelvyn
+              </a>{" "}
+              <br />
+              <strong>GitHub:</strong>{" "}
+              <a
+                href="https://github.com/Kerubink"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Kerubink
+              </a>{" "}
+              <br />
+            </li>
+            <br />
+            <li>
+              <strong>Nome:</strong> Ana Carolina <br />
+              <strong>Título:</strong> Dev Fullstack <br />
+              <strong>LinkedIn:</strong>{" "}
+              <a
+                href="https://www.linkedin.com/in/ana-carolina-amorim-de-souza/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Ana Carolina
+              </a>{" "}
+              <br />
+              <strong>GitHub:</strong>{" "}
+              <a
+                href="https://github.com/anacamorims"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                anacamorims
+              </a>{" "}
+              <br />
+            </li>
+            <br />
+            <li>
+              <strong>Nome:</strong> Janine Cruz <br />
+              <strong>Título:</strong> Dev Fullstack <br />
+              <strong>LinkedIn:</strong>{" "}
+              <a
+                href="https://www.linkedin.com/in/janine-cruz "
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Janine Cruz
+              </a>{" "}
+              <br />
+              <strong>GitHub:</strong>{" "}
+              <a
+                href="https://github.com/JanineCruz921"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                JanineCruz921
+              </a>{" "}
+              <br />
+            </li>
+            <br />
+            <li>
+              <strong>Nome:</strong> Beatriz Ferreira <br />
+              <strong>Título:</strong> Dev Fullstack <br />
+              <strong>LinkedIn:</strong>{" "}
+              <a
+                href="https://www.linkedin.com/in/beatriz-ferreira"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Beatriz Ferreira
+              </a>{" "}
+              <br />
+              <strong>GitHub:</strong>{" "}
+              <a
+                href="https://github.com/l1Beatriz"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                l1Beatriz
+              </a>{" "}
+              <br />
+            </li>
+            <br />
+            <li>
+              <strong>Nome:</strong> Gabriel Ferreira <br />
+              <strong>Título:</strong> Dev Fullstack <br />
+              <strong>LinkedIn:</strong>{" "}
+              <a
+                href="https://www.linkedin.com/in/claytonbahia?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Gabriel Ferreira
+              </a>{" "}
+              <br />
+              <strong>GitHub:</strong>{" "}
+              <a
+                href="https://github.com/ogabrielbahia"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ogabrielbahia
+              </a>{" "}
+              <br />
+            </li>
+            <br />
+            <li>
+              <strong>Nome:</strong> Leticia Borges <br />
+              <strong>Título:</strong> Dev Fullstack <br />
+              <strong>LinkedIn:</strong>{" "}
+              <a
+                href="https://www.linkedin.com/in/leticiaborges-desenvolvedora/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Leticia Borges
+              </a>{" "}
+              <br />
+              <strong>GitHub:</strong>{" "}
+              <a
+                href="https://github.com/LeticiaBorges06"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LeticiaBorges06
+              </a>{" "}
+              <br />
+            </li>
+          </ul>
+        </div>
+        
         );
 
       default:
@@ -258,6 +424,13 @@ const ProfilePage = () => {
       default:
         return "";
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userId");
+
+    navigate("/sign/in");
   };
 
   if (!userData) return <Loader />;
@@ -324,13 +497,15 @@ const ProfilePage = () => {
               </button>
             </div>
           </div>
-          <button className={styles.logoutButton}>Sair</button>
+          <button className={styles.logoutButton} onClick={handleLogout}>
+            Sair
+          </button>
         </div>
 
         <ModalComponent
           isOpen={isModalOpen}
           onRequestClose={() => setIsModalOpen(false)}
-          title={getModalTitle()} // Passando o título do modal
+          title={getModalTitle()}
         >
           {renderModalContent()}
         </ModalComponent>
