@@ -1,0 +1,46 @@
+.modalNav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #ffffff;
+    width: 100%;
+}
+
+.closeButton {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background-color: #ffffff; 
+    color: rgb(158, 158, 158); 
+    cursor: pointer; 
+    transition: background-color 0.3s;
+  }
+  
+  .closeButton:hover {
+    background-color: #0056b3; 
+  }
+
+  .modalContent {
+    height: 80%;
+    width: 100%;
+    padding: 1rem;
+    color: #ffffff;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .contentTitle h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .contentBody {
+    flex: 1;
+    overflow: auto;
+
+  }

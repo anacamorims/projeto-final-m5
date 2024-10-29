@@ -3,7 +3,7 @@
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(13.2px);
   -webkit-backdrop-filter: blur(13.2px);
-  display: flex; 
+  display: flex;
   overflow-y: auto;
   flex-direction: column;
   align-items: center;
@@ -13,7 +13,7 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
   gap: 5px;
   padding: 2rem 1rem;
   color: white;
@@ -36,9 +36,47 @@
 .headerProfile {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 10px;
+
+  border: #6495ed 1px solid;
+  width: 100%;
+  height: 40%;
+
+  --s: 100px; /* control the size */
+  --c1: #6495ed;
+  --c2: #23323f;
+
+  --_g: var(--c2) 6% 14%, var(--c1) 16% 24%, var(--c2) 26% 34%,
+    var(--c1) 36% 44%, var(--c2) 46% 54%, var(--c1) 56% 64%, var(--c2) 66% 74%,
+    var(--c1) 76% 84%, var(--c2) 86% 94%;
+  background: radial-gradient(
+      100% 100% at 100% 0,
+      var(--c1) 4%,
+      var(--_g),
+      #0008 96%,
+      #0000
+    ),
+    radial-gradient(
+        100% 100% at 0 100%,
+        #0000,
+        #0008 4%,
+        var(--_g),
+        var(--c1) 96%
+      )
+      var(--c1);
+  background-size: var(--s) var(--s);
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  backdrop-filter: blur(5px);
 }
 
 .iconProfile {
@@ -64,16 +102,78 @@
 }
 
 .headerText h5 {
-  color: rgb(103, 103, 103);
+  color: rgb(255, 255, 255);
 }
 
 .profileInfo {
   display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 90%;
-    margin-top: 2rem;
-    gap: 1rem;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 90%;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+.profileOptions {
+  position: absolute;
+  bottom: 0;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  width: 100%;
+  height: 65%;
+}
+
+.optionsTop {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.buttonsTop,
+.buttonsBottom {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.optionButton {
+  background-color: #ffffff; /* Cor do botão */
+  color: rgb(0, 0, 0); /* Cor do texto */
+  padding: 1rem;
+  border: none;
+  border-bottom: 1px solid #868686;
+  cursor: pointer; /* Mão ao passar o mouse */
+  transition: background-color 0.3s; /* Transição suave */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: medium;
+}
+
+.optionButton svg {
+  color: #a8a7a7; /* Cor do botão ativo */
+} 
+
+.optionButton:hover {
+  background-color: #c8c8c8; /* Cor ao passar o mouse */
+}
+
+.logoutButton {
+  background-color: #dc3545; /* Cor do botão de logout */
+  color: white; /* Cor do texto */
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Transição suave */
+}
+
+.logoutButton:hover {
+  background-color: #c82333; /* Cor ao passar o mouse */
 }
 
 .input_field {
@@ -96,12 +196,12 @@
 
 .input_field .icon {
   position: absolute;
-  left: 0; 
+  left: 0;
   top: 50%;
   transform: translateY(-50%);
-  color: white; 
-  opacity: 0; 
-  transition: opacity 0.3s ease; 
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .input_field input {
@@ -112,13 +212,13 @@
   outline: none;
   font-size: 16px;
   color: #fff;
-  border-bottom: 2px solid rgb(119, 119, 119); 
-  padding-left: 30px; 
+  border-bottom: 2px solid rgb(119, 119, 119);
+  padding-left: 30px;
   transition: border-bottom 0.3s ease;
 }
 
 .input_field input:focus {
-  border-bottom: 2px solid #ffffff; 
+  border-bottom: 2px solid #ffffff;
 }
 
 .input_field input:focus + label,
@@ -145,15 +245,53 @@
   transition: background-color 0.3s ease;
   font-size: 16px;
   font-weight: bold;
-  
 }
 
 
+/* modalProfile.module.css */
 
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
+.contentTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #ffffff; /* Cor do título */
+  text-align: center; /* Centraliza o texto */
+}
 
+.contentBody {
+  font-size: 16px;
+  color: #dcdcdc; /* Cor do texto do corpo */
+  line-height: 1.5; /* Espaçamento entre linhas */
+}
 
+.contentBody ul {
+  list-style-type: disc; /* Estilo de lista */
+  padding-left: 20px; /* Indentação para listas */
+}
 
+.contentBody ul li {
+  margin-bottom: 10px; /* Espaçamento entre os itens da lista */
+}
+
+/* Botão de fechar */
+.closeButton {
+  background-color: transparent; /* Fundo transparente */
+  border: none; /* Sem borda */
+  color: #ffffff; /* Cor do botão */
+  font-size: 20px; /* Tamanho do texto */
+  cursor: pointer; /* Cursor em forma de mão */
+  align-self: flex-end; /* Alinha à direita */
+}
+
+.closeButton:hover {
+  color: #ffcc00; /* Cor ao passar o mouse */
+}
 
 
 /* 
