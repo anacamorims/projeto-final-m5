@@ -276,7 +276,13 @@
 }
 
 .contentBody ul li {
-  margin-bottom: 10px; /* Espaçamento entre os itens da lista */
+  margin-bottom: 20px;
+
+}
+
+.contentBody  {
+  margin-bottom: 20px !important;
+  text-align: justify !important;
 }
 
 /* Botão de fechar */
