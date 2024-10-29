@@ -15,6 +15,13 @@
   gap: 5px;
   padding: 1rem 1rem;
   color: white;
+  justify-content: space-between;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+
 }
 
 .navbar .avatarUser {
@@ -40,6 +47,111 @@
 .navbar .welcomeText span {
   color: rgb(119, 119, 119);
 }
+
+
+.notificationsIcon button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+.notificationsIcon {
+  position: relative;
+}
+
+.notificationBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1300;
+}
+
+.notificationContainer {
+  width: 90%;
+  max-width: 400px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.notificationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #6495ed;
+  color: white;
+}
+
+.notificationList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.notificationItem {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+}
+
+.notificationItem:hover {
+  background-color: #f1f1f1;
+}
+
+.notificationIcon {
+  margin-right: 12px;
+  color: #6200ea;
+}
+
+.notificationContent p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.notificationContent small {
+  display: block;
+  color: #999;
+  margin-top: 4px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.notificationHeader button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
 
 .dashContent {
   display: flex;
@@ -183,7 +295,7 @@
   border-radius: 20px;
   padding: 1rem;
   gap: 1rem;
-  background-color: rgba(255, 255, 255, 0.1); /* Fundo para melhor visibilidade */
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .servicesList {
