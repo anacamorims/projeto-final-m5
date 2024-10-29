@@ -19,6 +19,7 @@ export default function SignUp() {
     name: "",
     contactNumber: "",
     email: "",
+    balance: 2000,
     password: "",
   });
 
@@ -26,7 +27,7 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [showInfoPopup, setShowInfoPopup] = useState(false); // Novo estado para controle do popup
+  const [showInfoPopup, setShowInfoPopup] = useState(false); 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -47,7 +48,7 @@ export default function SignUp() {
     setLoading(true);
     setError("");
 
-    const { name, contactNumber, email, password } = formData;
+    const { name, contactNumber, email, balance, password } = formData;
 
     if (!name || !contactNumber || !email || !password) {
       setError("Todos os campos são obrigatórios.");
@@ -81,7 +82,7 @@ export default function SignUp() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ name, contactNumber, email, password }),
+          body: JSON.stringify({ name, contactNumber, email, balance, password }),
         }
       );
 
