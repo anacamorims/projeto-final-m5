@@ -82,8 +82,10 @@
 .notificationContainer {
   width: 90%;
   max-width: 400px;
-  background-color: #fff;
-  border-radius: 12px;
+  background: rgba(6, 6, 6, 0.657);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(13.2px);
+  -webkit-backdrop-filter: blur(13.2px);  border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   animation: fadeIn 0.3s ease-in-out;
@@ -94,7 +96,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  background-color: #6495ed;
+  background-color: #6494edaf;
   color: white;
 }
 
@@ -109,28 +111,33 @@
 .notificationItem {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 12px;
   border-bottom: 1px solid #eee;
   transition: background-color 0.2s;
 }
 
-.notificationItem:hover {
-  background-color: #f1f1f1;
-}
 
+
+.notificationInfo {
+  display: flex;
+  align-items: center;
+}
+ 
 .notificationIcon {
   margin-right: 12px;
-  color: #6200ea;
+  color: #ffffff;
 }
 
 .notificationContent p {
   margin: 0;
+  color: #fff;
   font-weight: 500;
 }
 
 .notificationContent small {
   display: block;
-  color: #999;
+  color: #dadada;
   margin-top: 4px;
 }
 

@@ -70,17 +70,18 @@ export default function HomeApp() {
         );
         const data = await response.json();
         setTransactions(data);
-  
+
         if (data.length > 0) {
           const latestTransaction = data[0];
-          const lastViewedTransactionId = localStorage.getItem("lastTransactionId");
-  
+          const lastViewedTransactionId =
+            localStorage.getItem("lastTransactionId");
+
           // Só atualize `notificationsViewed` se houver uma nova transação
           if (latestTransaction.id > lastViewedTransactionId) {
             setHasNewNotification(true);
             localStorage.setItem("notificationsViewed", "false"); // Marca como não visualizado
             localStorage.setItem("lastTransactionId", latestTransaction.id); // Atualiza o ID da última transação
-  
+
             sendNotification(
               `Você tem uma nova transação: ${
                 latestTransaction.amount < 0
@@ -90,10 +91,12 @@ export default function HomeApp() {
             );
           } else {
             // Mantém o valor de `notificationsViewed` ao carregar a página
-            const notificationsViewed = localStorage.getItem("notificationsViewed");
+            const notificationsViewed = localStorage.getItem(
+              "notificationsViewed"
+            );
             setHasNewNotification(notificationsViewed !== "true");
           }
-  
+
           const lastFiveTransactions = data.slice(0, 5);
           setNotifications(lastFiveTransactions);
         }
@@ -101,7 +104,7 @@ export default function HomeApp() {
         console.error("Erro ao buscar transações", error);
       }
     };
-    
+
     if (userId) {
       fetchUserData();
       fetchTransactions();
@@ -129,7 +132,7 @@ export default function HomeApp() {
 
   const toggleNotificationOpen = () => {
     setIsNotificationOpen((prev) => !prev);
-  
+
     if (!isNotificationOpen) {
       setHasNewNotification(false);
       localStorage.setItem("notificationsViewed", "true");
@@ -189,20 +192,28 @@ export default function HomeApp() {
               {notifications.length > 0 ? (
                 notifications.map((notification, index) => (
                   <li key={index} className={styles.notificationItem}>
-                    <div className={styles.notificationIcon}>
-                      <CurrencyExchangeRoundedIcon />
+                    <div className={styles.notificationInfo}>
+                      <div className={styles.notificationIcon}>
+                        <CurrencyExchangeRoundedIcon />
+                      </div>
+                      <div className={styles.notificationContent}>
+                        <p>
+                          {notification.amount < 0
+                            ? "Transferência realizada"
+                            : "Recebimento recebido"}
+                        </p>
+                        <small>
+                          {new Date(
+                            notification.createdAt
+                          ).toLocaleDateString()}{" "}
+                          -{" "}
+                          {new Date(
+                            notification.createdAt
+                          ).toLocaleTimeString()}
+                        </small>
+                      </div>
                     </div>
-                    <div className={styles.notificationContent}>
-                      <p>
-                        {notification.amount < 0
-                          ? "Transferência realizada"
-                          : "Recebimento recebido"}
-                      </p>
-                      <small>
-                        {new Date(notification.createdAt).toLocaleDateString()}{" "}
-                        - {new Date(notification.createdAt).toLocaleTimeString()}
-                      </small>
-                    </div>
+
                     <span
                       style={{
                         color: notification.amount > 0 ? "#5dae0d" : "#ca0e04",
